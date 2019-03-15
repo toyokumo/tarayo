@@ -2,7 +2,8 @@
   (:require [nano-id.custom :as nano-id])
   (:import java.util.Date
            [javax.mail Message Message$RecipientType Session]
-           [javax.mail.internet InternetAddress MimeMessage]))
+           [javax.mail.internet InternetAddress MimeMessage]
+           javax.mail.Multipart))
 
 (def ^:private generate-id
   (nano-id/generate "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"))
@@ -13,9 +14,13 @@
 
 (defn make-message [^Session session message]
   (proxy [MimeMessage] [^Session session]
-    (updateMessageId []
+    (updateMessageID []
       (.setHeader ^MimeMessage this
                   "Message-ID" ((:message-id-fn message default-message-id))))))
+
+(def recipient-type-to Message$RecipientType/TO)
+(def recipient-type-cc Message$RecipientType/CC)
+(def recipient-type-bcc Message$RecipientType/BCC)
 
 (defn add-to [^MimeMessage msg addresses]
   (.addRecipients msg Message$RecipientType/TO addresses))
@@ -39,12 +44,8 @@
   (doseq [[k v] headers]
     (.addHeader msg (cond-> k (keyword? k) name) v)))
 
-(defn set-body [^MimeMessage msg ^String body ^String charset]
-  ;; FIXME
-  ; (if (string? body)
-  ;   (if (instance? MimeMessage jmsg)
-  ;     (doto ^MimeMessage jmsg (.setText body charset))
-  ;     (doto jmsg (.setText body)))
-  ;   (doto jmsg (add-multipart! body)))
+(defn set-text [^MimeMessage msg ^String body ^String charset]
   (.setText msg body charset))
 
+(defn set-content [^MimeMessage msg ^Multipart multipart]
+  (.setContent msg multipart))

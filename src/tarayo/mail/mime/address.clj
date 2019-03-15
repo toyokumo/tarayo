@@ -1,4 +1,4 @@
-(ns tarayo.mail.internet.address
+(ns tarayo.mail.mime.address
   (:import javax.mail.internet.InternetAddress))
 
 (defn make-address [addr charset]

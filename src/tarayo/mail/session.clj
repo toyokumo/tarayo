@@ -14,7 +14,7 @@
          [[k v]])))
    m))
 
-(defn- smtp-server-fixme [smtp-server]
+(defn- extract-smtp-server-kvs [smtp-server]
    (-> smtp-server
        (dissoc :debug :password :protocol :ssl)
        (set/rename-keys {:tls :starttls.enable})
@@ -22,7 +22,7 @@
 
 (defn- session-properties [smtp-server]
   (let [props (Properties.)]
-    (doseq [[k v] (smtp-server-fixme smtp-server)]
+    (doseq [[k v] (extract-smtp-server-kvs smtp-server)]
       (.put props k v))
     props))
 

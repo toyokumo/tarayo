@@ -7,6 +7,7 @@
                  [commons-codec "1.12"]
                  [com.sun.mail/jakarta.mail "1.6.3"]
                  [jakarta.mail/jakarta.mail-api "1.6.3"]
+                 [org.apache.tika/tika-core "1.20"]
                  [nano-id "0.9.3"]]
 
   :profiles
