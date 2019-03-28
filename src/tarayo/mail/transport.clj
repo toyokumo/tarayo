@@ -9,6 +9,9 @@
   (let [{:keys [host port user password]} smtp-server]
     (.connect transport host port user password)))
 
-;  {:code 0 :error :SUCCESS :message "messages sent"}
 (defn send! [^Transport transport ^MimeMessage message]
-  (.sendMessage transport message (.getAllRecipients message)))
+  (try
+    (.sendMessage transport message (.getAllRecipients message))
+    {:result :success}
+    (catch Throwable ex
+      {:result :fail :message (.getMessage ex) :cause ex})))
