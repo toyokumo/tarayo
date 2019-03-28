@@ -1,6 +1,5 @@
 (ns tarayo.core
-  (:require [clojure.java.io :as io]
-            [tarayo.mail.mime :as mime]
+  (:require [tarayo.mail.mime :as mime]
             [tarayo.mail.session :as session]
             [tarayo.mail.transport :as transport])
   (:import javax.mail.Transport))
@@ -35,28 +34,3 @@
      {:session sess
       :transport (doto ^Transport (transport/make-transport sess (:protocol smtp-server))
                    (transport/connect! smtp-server))})))
-
-; (comment
-;   (def server {:host "smtp.gmail.com"
-;                :port 587
-;                :tls true
-;                :user "liquidz.uo@gmail.com"
-;                :password "gaywuphmomvwvivq"
-;                })
-;   ; (def server {:host "localhost" :port 1025})
-;
-;   (with-open [conn (connect server)]
-;     (send! conn {:from "liquidz.uo@gmail.com"
-;                  :to "iizuka@cstap.com"
-;                  :subject "hello"
-;                  :body [
-;                         {:type "text/html"
-;                          :content "<h1>わーるど</h1>"}
-;                         {:type :attachment
-;                          :content (io/file "/home/uochan/tmp/uochan.png")}
-;                         ]
-;                  :charset "utf-8"
-;                  })
-;     )
-;   )
-;

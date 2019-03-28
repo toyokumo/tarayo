@@ -3,8 +3,7 @@
             [tarayo.mail.mime.address :as address]
             [tarayo.mail.mime.message :as message]
             [tarayo.mail.mime.multipart :as multipart])
-  (:import javax.mail.Message
-           javax.mail.Session))
+  (:import [javax.mail Message Session]))
 
 (def ^:private default-charset "utf-8")
 

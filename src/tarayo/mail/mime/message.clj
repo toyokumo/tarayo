@@ -1,9 +1,8 @@
 (ns tarayo.mail.mime.message
   (:require [nano-id.custom :as nano-id])
   (:import java.util.Date
-           [javax.mail Message Message$RecipientType Session]
-           [javax.mail.internet InternetAddress MimeMessage]
-           javax.mail.Multipart))
+           [javax.mail Message Message$RecipientType Multipart Session]
+           [javax.mail.internet InternetAddress MimeMessage]))
 
 (def ^:private generate-id
   (nano-id/generate "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"))

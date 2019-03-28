@@ -1,7 +1,7 @@
 (ns tarayo.mail.mime.multipart
   (:require [tarayo.mail.mime.multipart.body :as body])
-  (:import [javax.mail.internet MimeMultipart]
-           javax.mail.BodyPart))
+  (:import javax.mail.BodyPart
+           javax.mail.internet.MimeMultipart))
 
 (defn- add-body-parts [^MimeMultipart multipart parts ^String charset]
   (doseq [part parts]
