@@ -24,7 +24,8 @@
                              (ensure-string (:type part))
                              charset)]
     (doto (MimeBodyPart.)
-      (.setContent (:content part) content-type))))
+      (.setContent (:content part) content-type)
+      (.setHeader "Content-Type" content-type))))
 
 (defn- ^URL ensure-url [x]
   (try
