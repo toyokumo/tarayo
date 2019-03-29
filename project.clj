@@ -13,7 +13,10 @@
   :profiles
   {:dev {:dependencies [[org.clojure/clojure "1.9.0"]
                         [fudje "0.9.7"]
-                        ]}
+                        [orchestra "2019.02.06-1"]
+                        [com.github.kirviq/dumbster "1.7.1"]]
+         :source-paths ["dev" "src"]
+         :global-vars {*warn-on-reflection* true}}
 
    :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
    :1.10 {:dependencies [[org.clojure/clojure "1.10.0"]]}
@@ -23,4 +26,7 @@
               :test-paths ["integration/test"]}]}
   :aliases
   {"test-all" ["with-profile" "1.9:1.10" "test"]
-   "test-whale" ["with-profile" "1.9,it:1.10,it" "test"]})
+   "test-whale" ["with-profile" "1.9,it:1.10,it" "test"]}
+
+  :plugins [[lein-cloverage "1.1.1"]]
+  )
