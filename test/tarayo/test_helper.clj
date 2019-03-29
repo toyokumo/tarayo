@@ -5,6 +5,7 @@
 (defrecord TestConnection [session transport]
   tarayo.core.ITarayo
   (send! [this message] {:fn :send! :message message})
+  (connected? [this] true)
   (close [this] nil))
 
 (def ^:private default-test-smtp-server

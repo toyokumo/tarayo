@@ -6,6 +6,7 @@
 
 (defprotocol ITarayo
   (send! [this message])
+  (connected? [this])
   (close [this]))
 
 (defrecord TarayoConnection [session transport]
@@ -14,6 +15,9 @@
     (->> message
          (mime/make-message (:session this))
          (transport/send! (:transport this))))
+
+  (connected? [this]
+    (.isConnected ^Transport (:transport this)))
 
   (close [this] (.close ^Transport (:transport this))))
 
