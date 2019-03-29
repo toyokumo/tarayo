@@ -14,7 +14,10 @@
   {:dev {:dependencies [[org.clojure/clojure "1.9.0"]
                         [fudje "0.9.7"]
                         [orchestra "2019.02.06-1"]
-                        [com.github.kirviq/dumbster "1.7.1"]]
+                        [com.github.kirviq/dumbster "1.7.1"]
+                        ;; for benchmark
+                        [criterium "0.4.4"]
+                        [com.draines/postal "2.0.3"]]
          :source-paths ["dev" "src"]
          :global-vars {*warn-on-reflection* true}}
 
@@ -26,7 +29,8 @@
               :test-paths ["integration/test"]}]}
   :aliases
   {"test-all" ["with-profile" "1.9:1.10" "test"]
-   "test-whale" ["with-profile" "1.9,it:1.10,it" "test"]}
+   "test-whale" ["with-profile" "1.9,it:1.10,it" "test"]
+   "benchmark" ["run" "-m" "benchmark"]}
 
   :plugins [[lein-cloverage "1.1.1"]]
   :cloverage {:ns-exclude-regex [#"user"
