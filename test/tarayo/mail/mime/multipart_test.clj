@@ -1,10 +1,10 @@
 (ns tarayo.mail.mime.multipart-test
-  (:require [clojure.test :as t]
-            [tarayo.mail.mime.multipart :as sut]
-            [clojure.java.io :as io])
-  (:import javax.mail.internet.MimeMultipart
-           javax.mail.BodyPart
-           ))
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]
+            [clojure.test :as t]
+            [tarayo.mail.mime.multipart :as sut])
+  (:import javax.mail.BodyPart
+           [javax.mail.internet MimeBodyPart MimeMultipart]))
 
 (t/deftest make-multipart-test
   (let [mp (sut/make-multipart [{:type "text/html"
@@ -13,12 +13,35 @@
                                 {:type :attachment
                                  :content (io/file "project.clj")}] "UTF-8")]
     (t/is (instance? MimeMultipart mp))
-
     (t/is (= 2 (.getCount mp)))
+    (t/is (str/starts-with? (.getContentType mp) "multipart/mixed; "))
 
-    (let [[x y :as bps] (map #(.getBodyPart mp %) (range (.getCount mp)))]
+    (let [bps (map #(.getBodyPart mp ^long %) (range (.getCount mp)))
+          ^MimeBodyPart html (first bps)
+          ^MimeBodyPart attach (second bps)]
+
       (t/is (every? #(instance? BodyPart %) bps))
 
-      ;; FIXME
-      (t/is (= "foo" (.getContent x)))
-      (t/is (= "project.clj" (.getFileName y))))))
+      (t/is (= "foo" (.getContent html)))
+      (t/is (= "text/html; charset=UTF-8" (.getContentType html)))
+
+      (t/is (= "project.clj" (.getFileName attach)))
+      (t/is (= "text/x-clojure" (.getContentType attach))))))
+
+(t/deftest make-multipart-alternative-test
+  (let [mp (sut/make-multipart [:alternative
+                                {:type "text/plain" :content "foo"}
+                                {:type "text/html" :content "<p>foo</p>"}]
+                               "UTF-8")]
+    (t/is (instance? MimeMultipart mp))
+    (t/is (= 2 (.getCount mp)))
+    (t/is (str/starts-with? (.getContentType mp) "multipart/alternative; "))
+
+    (let [bps (map #(.getBodyPart mp ^long %) (range (.getCount mp)))
+          ^MimeBodyPart text (first bps)
+          ^MimeBodyPart html (second bps)]
+      (t/is (= "text/plain; charset=UTF-8" (.getContentType text)))
+      (t/is (= "foo" (.getContent text)))
+
+      (t/is (= "text/html; charset=UTF-8" (.getContentType html)))
+      (t/is (= "<p>foo</p>" (.getContent html))))))
