@@ -29,4 +29,6 @@
    "test-whale" ["with-profile" "1.9,it:1.10,it" "test"]}
 
   :plugins [[lein-cloverage "1.1.1"]]
+  :cloverage {:ns-exclude-regex [#"user"
+                                 #"tarayo\.spec"]}
   )

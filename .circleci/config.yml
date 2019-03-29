@@ -26,3 +26,5 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "project.clj" }}
       - run: lein test-whale
+      - run: lein cloverage --codecov
+      - run: bash <(curl -s https://codecov.io/bash)
