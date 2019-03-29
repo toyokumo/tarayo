@@ -1,8 +1,9 @@
 (ns tarayo.mail.transport
-  (:import [javax.mail Session Transport]
+  (:import com.sun.mail.smtp.SMTPTransport
+           [javax.mail Session Transport]
            javax.mail.internet.MimeMessage))
 
-(defn make-transport [^Session session ^String protocol]
+(defn ^SMTPTransport make-transport [^Session session ^String protocol]
   (.getTransport session protocol))
 
 (defn connect! [^Transport transport smtp-server]

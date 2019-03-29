@@ -7,15 +7,16 @@
 
 (def ^Tika mime-detector (Tika.))
 
-(defn- detect-mime-type [file]
-  (.detect mime-detector file))
+(defn- detect-mime-type [^URL url]
+  (.detect mime-detector url))
 
-(defn- ensure-string [x]
+(defn- ^String ensure-string [x]
   (if (keyword? x)
-    (str (.sym x))
+    (str (.sym ^clojure.lang.Keyword x))
     x))
 
-(defmulti make-bodypart (fn [part _charset] (:type part)))
+(defmulti ^MimeBodyPart make-bodypart
+  (fn [part _charset] (:type part)))
 
 (defmethod make-bodypart :default
   [part charset]

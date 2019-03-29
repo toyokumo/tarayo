@@ -12,8 +12,8 @@
     [(name (first parts)) (rest parts)]
     ["mixed" parts]))
 
-(defn make-multipart [parts charset]
-  (let [[multipart-type parts] (multipart-type parts)]
+(defn ^MimeMultipart make-multipart [parts charset]
+  (let [[^String multipart-type parts] (multipart-type parts)]
     (doto (MimeMultipart. multipart-type)
       (add-body-parts parts charset))))
 

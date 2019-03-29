@@ -3,7 +3,8 @@
             [tarayo.mail.mime.address :as address]
             [tarayo.mail.mime.message :as message]
             [tarayo.mail.mime.multipart :as multipart])
-  (:import [javax.mail Message Session]))
+  (:import javax.mail.internet.MimeMessage
+           javax.mail.Session))
 
 (def ^:private default-charset "utf-8")
 
@@ -13,10 +14,10 @@
 (defn- default-user-agent []
   (str "tarayo/" (System/getProperty "tarayo.version")))
 
-(defn make-message [^Session session message]
+(defn ^MimeMessage make-message [^Session session message]
   (let [charset (:charset message default-charset)
         {:keys [from sender body]} message]
-    (doto ^Message (message/make-message session message)
+    (doto ^MimeMessage (message/make-message session message)
       (message/add-to (address/make-addresses (:to message) charset))
       (message/add-cc (address/make-addresses (:cc message) charset))
       (message/add-bcc (address/make-addresses (:bcc message) charset))

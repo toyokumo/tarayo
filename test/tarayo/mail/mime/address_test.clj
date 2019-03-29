@@ -21,11 +21,11 @@
       (t/is (.isArray (class x)))
       (t/is (every? #(instance? InternetAddress %) (seq x)))
       (t/is (= #{"foo@bar.com" "bar@baz.com"}
-               (set (map #(.getAddress %) x))))))
+               (set (map #(.getAddress ^InternetAddress %) x))))))
 
   (t/testing "string"
     (let [x (sut/make-addresses "foo@bar.com" "utf-8")]
       (t/is (.isArray (class x)))
       (t/is (every? #(instance? InternetAddress %) (seq x)))
       (t/is (= #{"foo@bar.com"}
-               (set (map #(.getAddress %) x)))))))
+               (set (map #(.getAddress ^InternetAddress %) x)))))))

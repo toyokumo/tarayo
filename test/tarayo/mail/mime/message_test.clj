@@ -5,7 +5,7 @@
             [tarayo.mail.mime.message :as sut]
             [tarayo.test-helper :as h])
   (:import java.util.Calendar
-           javax.mail.internet.MimeMessage))
+           [javax.mail.internet InternetAddress MimeMessage]))
 
 (t/deftest make-message-test
   (let [{:keys [session]} (h/test-connection)]
@@ -23,9 +23,9 @@
         (.saveChanges msg)
         (t/is (= "foo" (.getMessageID msg)))))))
 
-(defn- gen-test-message []
+(defn- ^MimeMessage gen-test-message []
   (let [{:keys [session]} (h/test-connection)
-        cal (doto (Calendar/getInstance)
+        ^Calendar cal (doto (Calendar/getInstance)
               (.set 2112 (dec 9) 3))]
     (doto (sut/make-message session {})
       (sut/add-to (addr/make-addresses ["to@foo.com" "to@bar.com"] "utf-8"))
@@ -37,7 +37,7 @@
       (sut/add-headers {"Foo" "Bar" "Bar" "Baz"}))))
 
 (defn- addrs->set [addrs]
-  (set (map #(.getAddress %) addrs)))
+  (set (map #(.getAddress ^InternetAddress %) addrs)))
 
 (t/deftest add-to-cc-bcc-test
   (let [msg (gen-test-message)
