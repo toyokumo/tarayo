@@ -16,6 +16,8 @@ SMTP client library for Clojure. That's it.
 </p>
 +++
 
+WARNING: This project is under development.
+
 == Usage
 
 [source,clojure]
