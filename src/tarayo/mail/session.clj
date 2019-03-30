@@ -26,7 +26,7 @@
       (.put props k v))
     props))
 
-(defn make-session [smtp-server]
+(defn ^Session make-session [smtp-server]
   (let [props (session-properties smtp-server)]
     (doto (Session/getInstance props)
       (.setDebug (get smtp-server :debug false)))))
