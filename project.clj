@@ -34,5 +34,6 @@
 
   :plugins [[lein-cloverage "1.1.1"]]
   :cloverage {:ns-exclude-regex [#"user"
+                                 #"benchmark"
                                  #"tarayo\.spec"]}
   )

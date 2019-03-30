@@ -1,7 +1,10 @@
 (ns tarayo.core-test
   (:require [clojure.test :as t]
             [tarayo.core :as sut]
-            [tarayo.test-helper :as h]))
+            [tarayo.mail.transport :as transport]
+            [tarayo.test-helper :as h])
+  (:import com.sun.mail.smtp.SMTPTransport
+           javax.mail.Session))
 
 (t/deftest connect-test
   (h/with-test-smtp-server [srv port]
@@ -14,3 +17,52 @@
         (t/is (= {:result :success} (sut/send! conn test-message))))
 
       (t/is (= [test-message] (h/get-received-emails srv))))))
+
+(t/deftest connect-defaults-test
+  (with-redefs [transport/connect! (fn [t _] t)]
+    (t/testing "no parameters"
+      (let [{:keys [^Session session ^SMTPTransport transport]} (sut/connect)
+            props (.getProperties session)
+            url-name (.getURLName transport)]
+        (t/are [x y] (= x (get props y))
+          25,          "mail.smtp.port"
+          "localhost", "mail.smtp.host"
+          "false",     "mail.smtp.auth"
+          nil,         "mail.smtp.starttls.enable")
+        (t/is (= "smtp" (.getProtocol url-name)))))
+
+    (t/testing "ssl"
+      (let [server {:host "example.com" :ssl true}
+            {:keys [^Session session ^SMTPTransport transport]} (sut/connect server)
+            props (.getProperties session)
+            url-name (.getURLName transport)]
+        (t/are [x y] (= x (get props y))
+          465,           "mail.smtps.port"
+          "example.com", "mail.smtps.host"
+          "false",       "mail.smtps.auth"
+          nil,           "mail.smtp.starttls.enable")
+        (t/is (= "smtps" (.getProtocol url-name)))))
+
+    (t/testing "tls"
+      (let [server {:tls true :port 587}
+            {:keys [^Session session ^SMTPTransport transport]} (sut/connect server)
+            props (.getProperties session)
+            url-name (.getURLName transport)]
+        (t/are [x y] (= x (get props y))
+          587,         "mail.smtp.port"
+          "localhost", "mail.smtp.host"
+          "false",     "mail.smtp.auth"
+          "true",     "mail.smtp.starttls.enable")
+        (t/is (= "smtp" (.getProtocol url-name)))))
+
+    (t/testing "user authentication"
+      (let [server {:user "foo" :password "bar"}
+            {:keys [^Session session ^SMTPTransport transport]} (sut/connect server)
+            props (.getProperties session)
+            url-name (.getURLName transport)]
+        (t/are [x y] (= x (get props y))
+          25,          "mail.smtp.port"
+          "localhost", "mail.smtp.host"
+          "true",      "mail.smtp.auth"
+          nil,         "mail.smtp.starttls.enable")
+        (t/is (= "smtp" (.getProtocol url-name)))))))
