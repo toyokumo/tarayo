@@ -7,14 +7,6 @@
   (doseq [part parts]
     (.addBodyPart multipart ^BodyPart (body/make-bodypart part charset))))
 
-(defn- multipart-type [parts]
-  (if (keyword? (first parts))
-    [(name (first parts)) (rest parts)]
-    ["mixed" parts]))
-
-(defn ^MimeMultipart make-multipart [parts charset]
-  (let [[^String multipart-type parts] (multipart-type parts)]
-    (doto (MimeMultipart. multipart-type)
-      (add-body-parts parts charset))))
-
-
+(defn ^MimeMultipart make-multipart [^String multipart-type parts charset]
+  (doto (MimeMultipart. multipart-type)
+    (add-body-parts parts charset)))

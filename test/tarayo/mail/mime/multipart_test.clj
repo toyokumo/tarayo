@@ -7,11 +7,10 @@
            [javax.mail.internet MimeBodyPart MimeMultipart]))
 
 (t/deftest make-multipart-test
-  (let [mp (sut/make-multipart [{:type "text/html"
-                                 :content "foo"}
-
-                                {:type :attachment
-                                 :content (io/file "project.clj")}] "UTF-8")]
+  (let [mp (sut/make-multipart "mixed"
+                               [{:type "text/html" :content "foo"}
+                                {:type :attachment :content (io/file "project.clj")}]
+                               "UTF-8")]
     (t/is (instance? MimeMultipart mp))
     (t/is (= 2 (.getCount mp)))
     (t/is (str/starts-with? (.getContentType mp) "multipart/mixed; "))
@@ -29,8 +28,8 @@
       (t/is (= "text/x-clojure" (.getContentType attach))))))
 
 (t/deftest make-multipart-alternative-test
-  (let [mp (sut/make-multipart [:alternative
-                                {:type "text/plain" :content "foo"}
+  (let [mp (sut/make-multipart "alternative"
+                               [{:type "text/plain" :content "foo"}
                                 {:type "text/html" :content "<p>foo</p>"}]
                                "UTF-8")]
     (t/is (instance? MimeMultipart mp))
