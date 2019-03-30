@@ -1,11 +1,11 @@
 (ns tarayo.mail.mime.message-test
-  (:require [clojure.string :as str]
-            [clojure.test :as t]
+  (:require [clojure.test :as t]
             [tarayo.mail.mime.address :as addr]
             [tarayo.mail.mime.message :as sut]
+            [tarayo.mail.mime.multipart :as multipart]
             [tarayo.test-helper :as h])
   (:import java.util.Calendar
-           [javax.mail.internet InternetAddress MimeMessage]))
+           [javax.mail.internet InternetAddress MimeMessage MimeMultipart]))
 
 (t/deftest make-message-test
   (let [{:keys [session]} (h/test-connection)]
@@ -14,7 +14,7 @@
         (t/is (instance? MimeMessage msg))
         (t/is (nil? (.getMessageID msg)))
         (.saveChanges msg)
-        (t/is (str/includes? (.getMessageID msg) "@tarayo"))))
+        (t/is (h/tarayo-message-id? (.getMessageID msg)))))
 
     (t/testing "custom message-id"
       (let [msg (sut/make-message session {:message-id-fn (constantly "foo")})]
@@ -69,3 +69,16 @@
     (t/is (= ["Bar"] (seq (.getHeader msg "Foo"))))
     (t/is (= ["Baz"] (seq (.getHeader msg "Bar"))))))
 
+(t/deftest set-content-test
+  (t/testing "multipart"
+    (let [msg (gen-test-message)
+          parts [{:type "text/html" :content "<p>hello</p>"}]
+          mp (multipart/make-multipart "mixed" parts "utf-8")]
+      (sut/set-content msg mp)
+      (t/is (instance? MimeMultipart (.getContent msg)))))
+
+  (t/testing "string"
+    (let [msg (gen-test-message)]
+      (sut/set-content msg "hello" "text/html; charset=utf-8")
+      (t/is (= "hello" (.getContent msg)))
+      (t/is (= "text/html; charset=utf-8" (.getContentType msg))))))

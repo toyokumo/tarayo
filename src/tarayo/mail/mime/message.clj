@@ -48,8 +48,10 @@
   (doseq [[k v] headers]
     (.addHeader msg (cond-> k (keyword? k) name) v)))
 
-(defn set-text [^MimeMessage msg ^String body ^String charset]
-  (.setText msg body charset))
-
-(defn set-content [^MimeMessage msg ^Multipart multipart]
-  (.setContent msg multipart))
+(defn set-content
+  ([^MimeMessage msg ^Multipart multipart]
+   (.setContent msg multipart))
+  ([^MimeMessage msg ^String content ^String content-type]
+   (doto msg
+     (.setContent content content-type)
+     (.setHeader "Content-Type" content-type))))
