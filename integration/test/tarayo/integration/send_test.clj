@@ -5,11 +5,9 @@
             [clojure.test :as t]
             [fudje.sweet :as fj]
             [org.httpkit.client :as http]
-            [tarayo.core :as core])
+            [tarayo.core :as core]
+            [tarayo.test-helper :as h])
   (:import java.util.Calendar))
-
-(defn- random-address []
-  (format "%s@example.com" (java.util.UUID/randomUUID)))
 
 (def ^:private mailhog-server
   {:host "localhost" :port 1025})
@@ -22,18 +20,8 @@
                         {:query-params {:kind "from" :query from-address}})]
     (json/read-str (:body resp) :key-fn (comp keyword csk/->kebab-case))))
 
-(defn- tarayo-message-id? [x]
-  (if (sequential? x)
-    (tarayo-message-id?  (first x))
-    (some?  (re-seq #"^<[0-9A-Za-z]+\.[0-9]+@tarayo\..+>$" x))))
-
-(defn- tarayo-user-agent? [x]
-  (if (sequential? x)
-    (tarayo-user-agent?  (first x))
-    (some?  (re-seq #"^tarayo/.+$" x))))
-
 (t/deftest simple-send-test
-  (let [from (random-address)
+  (let [from (h/random-address)
         now (doto (Calendar/getInstance)
               (.set 2112 (dec 9) 3))]
     (with-open [conn (core/connect mailhog-server)]
@@ -59,9 +47,9 @@
                       :content-type ["text/plain; charset=UTF-8"]
                       :date [(fj/checker #(str/starts-with? % "Sat, 3 Sep 2112 "))]
                       :from [from]
-                      :message-id (fj/checker tarayo-message-id?)
+                      :message-id (fj/checker h/tarayo-message-id?)
                       :subject ["hello"]
                       :to ["alice@example.com"]
-                      :user-agent (fj/checker tarayo-user-agent?)})))
+                      :user-agent (fj/checker h/tarayo-user-agent?)})))
 
       (t/is (= "world" (get-in item [:content :body]))))))

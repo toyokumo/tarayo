@@ -30,3 +30,16 @@
   `(with-open [~server-sym (SimpleSmtpServer/start SimpleSmtpServer/AUTO_SMTP_PORT)]
      (let [~port-sym (.getPort ~server-sym)]
        ~@body)))
+
+(defn random-address []
+  (format "%s@example.com" (java.util.UUID/randomUUID)))
+
+(defn tarayo-message-id? [x]
+  (if (sequential? x)
+    (tarayo-message-id?  (first x))
+    (some?  (re-seq #"^<[0-9A-Za-z]+\.[0-9]+@tarayo\..+>$" x))))
+
+(defn tarayo-user-agent? [x]
+  (if (sequential? x)
+    (tarayo-user-agent?  (first x))
+    (some?  (re-seq #"^tarayo/.+$" x))))
