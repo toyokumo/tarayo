@@ -9,19 +9,19 @@
 (def ^:private default-charset "utf-8")
 
 (def ^:private non-extra-headers
-  #{:bcc :body :cc :date :from :message-id :reply-to :sender :subject :to})
+  #{:bcc :body :cc :date :from :message-id :reply-to :subject :to})
 
 (defn- default-user-agent []
   (str "tarayo/" (System/getProperty "tarayo.version")))
 
 (defn ^MimeMessage make-message [^Session session message]
   (let [charset (:charset message default-charset)
-        {:keys [from sender body]} message]
+        {:keys [body]} message]
     (doto ^MimeMessage (message/make-message session message)
       (message/add-to (address/make-addresses (:to message) charset))
       (message/add-cc (address/make-addresses (:cc message) charset))
       (message/add-bcc (address/make-addresses (:bcc message) charset))
-      (message/set-from (address/make-address (or from sender) charset))
+      (message/set-from (address/make-address (:from message) charset))
       (message/set-subject (:subject message) charset)
       (message/set-sent-date (:date message (java.util.Date.)))
       (message/add-headers (-> (apply dissoc message non-extra-headers)
