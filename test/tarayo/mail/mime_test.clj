@@ -11,7 +11,7 @@
         msg (sut/make-message session opts)]
     (t/is (instance? MimeMessage msg))
     (t/is (str/includes? (.getMessageID msg) "@tarayo"))
-    (t/is (str/starts-with? (first (.getHeader msg "User-Agent")) "tarayo/"))
+    (t/is (h/tarayo-user-agent? (first (.getHeader msg "User-Agent"))))
     (t/is (= "world" ^String (.getContent msg)))))
 
 (t/deftest make-message-with-custom-user-agent-test
@@ -27,6 +27,23 @@
         opts {:from "foo" :to "bar" :subject "hello" :charset "UTF-8"
               :body [{:type "text/plain" :content "world"}
                      {:type "text/html" :content "<p>world</p>"}]}
-        msg (sut/make-message session opts)]
+        msg (sut/make-message session opts)
+        content (.getContent msg)]
     (t/is (instance? MimeMessage msg))
-    (t/is (instance? MimeMultipart (.getContent msg)))))
+    (t/is (instance? MimeMultipart content))
+    (t/is (str/starts-with? (.getContentType ^MimeMultipart content)
+                            "multipart/mixed; "))))
+
+(t/deftest make-message-with-multipart-type-test
+  (let [{:keys [session]} (h/test-connection)
+        base-opts {:from "foo" :to "bar" :subject "hello" :charset "UTF-8"
+                  :body [{:type "text/plain" :content "world"}]}]
+    (t/testing "alternative"
+      (let [opts (assoc base-opts :multipart "alternative")
+            ^MimeMultipart mp (.getContent (sut/make-message session opts))]
+        (t/is (str/starts-with? (.getContentType mp) "multipart/alternative; "))))
+
+    (t/testing "related"
+      (let [opts (assoc base-opts :multipart "related")
+            ^MimeMultipart mp (.getContent (sut/make-message session opts))]
+        (t/is (str/starts-with? (.getContentType mp) "multipart/related; "))))))

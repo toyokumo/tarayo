@@ -6,7 +6,7 @@
   (:import com.sun.mail.smtp.SMTPTransport
            javax.mail.Session))
 
-(t/deftest connect-test
+(t/deftest connect-and-send!-test
   (h/with-test-smtp-server [srv port]
     (let [test-message {:from "alice@example.com" :to "bob@example.com"
                         :subject "hello" :body "world"}]
