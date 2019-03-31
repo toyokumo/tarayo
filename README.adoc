@@ -1,4 +1,10 @@
 = tarayo
+:toc:
+:toc-placement: preamble
+:toclevels: 2
+
+// Need some preamble to get TOC:
+{empty}
 
 SMTP client library for Clojure. That's it.
 
@@ -10,25 +16,127 @@ SMTP client library for Clojure. That's it.
   <a href="https://codecov.io/gh/liquidz/tarayo">
     <img src="https://codecov.io/gh/liquidz/tarayo/branch/master/graph/badge.svg" alt="Codecov" />
   </a>
-  <a href="https://github.com/liquidz/tarayo/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/liquidz/tarayo.svg?logo=Github" alt="GitHub license" />
+  <a href="https://versions.deps.co/liquidz/tarayo" title="Dependencies Status">
+    <img src="https://versions.deps.co/liquidz/tarayo/status.svg" />
   </a>
 </p>
 +++
 
 WARNING: This project is under development.
 
+== Why tarayo?
+
+Tarayo is heavily inspired by https://github.com/drewr/postal[drewr/postal].
+
+* Only targets SMTP
+** Provide only one feature.
+** Use https://github.com/drewr/postal[drewr/postal] for `sendmail`.
+* Explicit connection
+** Handle the connection manually.
+* Well tested
+
+"Tarayo" is a tree name called "Tree of post office" in Japan.
+
 == Usage
+
+
+link:https://clojars.org/tarayo[image:https://img.shields.io/clojars/v/tarayo.svg[]]
 
 [source,clojure]
 ----
-(require '[tarayo.core :as tarayo])
+(ns foo.core
+  (:require [tarayo.core :as tarayo]))
+----
 
+=== Connection SMTP server
+
+`tarayo.core/connect` is a function to connect SMTP server. +
+You need to call `tarayo.core/close` function before quitting, or use https://clojuredocs.org/clojure.core/with-open[`with-open`] macro.
+
+[source,clojure]
+----
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  ;; send mails
+  )
+----
+
+Other examples are follows:
+
+SSL connection::
+`(tarayo/connect {:host "localhost" :port 465 :ssl true})`
+TLS connection::
+`(tarayo/connect {:host "localhost" :port 587 :tls true})`
+Connection with user authentication::
+`(tarayo/connect {:host "localhost" :port 25 :user "USERNAME" :password "PASSWORD"})`
+
+=== Sending mails
+
+==== Text mail
+
+[source,clojure]
+----
 (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
   (tarayo/send! conn {:from "alice@example.com"
                       :to "bob@example.com"
                       :subject "hello"
                       :body "world"}))
+----
+
+==== HTML mail
+
+[source,clojure]
+----
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (tarayo/send! conn {:from "alice@example.com"
+                      :to "bob@example.com"
+                      :subject "hello"
+                      :content-type "text/html
+                      :body "<h1>world</h1>"}))
+----
+
+==== Attachment file
+
+[source,clojure]
+----
+(require '[clojure.java.io :as io])
+
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (tarayo/send! conn {:from "alice@example.com"
+                      :to "bob@example.com"
+                      :subject "hello"
+                      ;; Default multipart type is "mixed"
+                      :body [{:type "text/plain" :content "world"}
+                             ;; content-type is automatically detected
+                             {:type "attachment" :content (io/file "/file")}
+                             {:type "attachment" :content (io/file "/image.png") :conten-type "image/png"}]}))
+----
+
+==== Multipart/alternative
+
+[source,clojure]
+----
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (tarayo/send! conn {:from "alice@example.com"
+                      :to "bob@example.com"
+                      :subject "hello"
+                      :multipart "alternative"
+                      :body [{:type "text/plain" :content "world"}
+                             {:type "text/html" :content "<h1>wold</h1>"}]}))
+----
+
+==== Inline image
+
+[source,clojure]
+----
+(require '[clojure.java.io :as io])
+
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (let [content-id (java.util.UUID/randomUUID)]
+    (tarayo/send! conn {:from "alice@example.com"
+                        :to "bob@example.com"
+                        :subject "hello"
+                        :body [{:type "text/html" :content (str "<img src=\"cid:" content-id "\" /> world")}
+                               {:type "inline" :content (io/file "/image.png") :id content-id}]})))
 ----
 
 == License
