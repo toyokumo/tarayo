@@ -36,4 +36,11 @@
   :cloverage {:ns-exclude-regex [#"user"
                                  #"benchmark"
                                  #"tarayo\.spec"]}
-  )
+
+  :release-tasks [["vcs" "assert-committed"]
+                  ["change" "version" "leiningen.release/bump-version" "release"]
+                  ["vcs" "commit"]
+                  ["vcs" "tag"]
+                  ["change" "version" "leiningen.release/bump-version"]
+                  ["vcs" "commit"]
+                  ["vcs" "push"]])
