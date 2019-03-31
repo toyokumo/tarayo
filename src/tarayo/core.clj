@@ -21,9 +21,12 @@
 
   (close [this] (.close ^Transport (:transport this))))
 
-(defn- get-defaults [{:keys [ssl user]}]
+(defn- get-defaults [{:keys [ssl tls user]}]
   {:host "localhost"
-   :port (if ssl 465 25)
+   :port (cond
+           ssl 465
+           tls 587
+           :else 25)
    :auth (some? user)
    :protocol (if ssl "smtps" "smtp")})
 

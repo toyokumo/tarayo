@@ -44,7 +44,7 @@
         (t/is (= "smtps" (.getProtocol url-name)))))
 
     (t/testing "tls"
-      (let [server {:tls true :port 587}
+      (let [server {:tls true}
             {:keys [^Session session ^SMTPTransport transport]} (sut/connect server)
             props (.getProperties session)
             url-name (.getURLName transport)]
