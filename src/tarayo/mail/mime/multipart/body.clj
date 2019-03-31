@@ -16,7 +16,7 @@
     x))
 
 (defmulti ^MimeBodyPart make-bodypart
-  (fn [part _charset] (:type part)))
+  (fn [part _charset] (keyword (:type part))))
 
 (defmethod make-bodypart :default
   [part charset]

@@ -5,7 +5,7 @@
 
 (defn- add-body-parts [^MimeMultipart multipart parts ^String charset]
   (doseq [part parts]
-    (.addBodyPart multipart ^BodyPart (body/make-bodypart part charset))))
+    (.addBodyPart multipart (body/make-bodypart part charset))))
 
 (defn ^MimeMultipart make-multipart [^String multipart-type parts charset]
   (doto (MimeMultipart. multipart-type)

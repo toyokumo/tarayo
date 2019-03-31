@@ -32,7 +32,7 @@
    "test-whale" ["with-profile" "1.9,it:1.10,it" "test"]
    "benchmark" ["run" "-m" "benchmark"]}
 
-  :plugins [[lein-cloverage "1.1.1"]]
+  :plugins [[lein-cloverage "1.1.2-SNAPSHOT"]]
   :cloverage {:ns-exclude-regex [#"user"
                                  #"benchmark"
                                  #"tarayo\.spec"]}
