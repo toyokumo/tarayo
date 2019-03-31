@@ -108,7 +108,7 @@ Connection with user authentication::
                       :body [{:type "text/plain" :content "world"}
                              ;; content-type is automatically detected
                              {:type "attachment" :content (io/file "/file")}
-                             {:type "attachment" :content (io/file "/image.png") :conten-type "image/png"}]}))
+                             {:type "attachment" :content (io/file "/image.png") :content-type "image/png"}]}))
 ----
 
 ==== Multipart/alternative
