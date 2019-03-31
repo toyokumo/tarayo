@@ -39,12 +39,14 @@
   (last (.split (.getPath url) separator)))
 
 (defn- make-attachment-bodypart [part _charset]
-  (let [url (-> part :content ensure-url)]
+  (let [url (-> part :content ensure-url)
+        content-id (:id part)]
     (doto (MimeBodyPart.)
       (.setDataHandler (DataHandler. url))
       (.setFileName (extract-file-name url))
       (.setDisposition (-> part :type name))
-      (.setHeader "Content-Type" (get part :content-type (detect-mime-type url))))))
+      (.setHeader "Content-Type" (get part :content-type (detect-mime-type url)))
+      (cond-> content-id (.setContentID (str "<" content-id ">"))))))
 
 (defmethod make-bodypart :inline
   [part charset]
