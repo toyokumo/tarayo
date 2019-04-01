@@ -2,7 +2,7 @@
   (:require [clojure.java.io :as io]
             [clojure.test :as t]
             [tarayo.mail.mime.multipart.body :as sut])
-  (:import javax.mail.internet.MimeBodyPart))
+  (:import [javax.mail.internet MimeBodyPart MimeUtility]))
 
 (t/deftest make-bodypart-text-html-test
   (t/testing "string type"
@@ -58,3 +58,11 @@
         bp (sut/make-bodypart part "UTF-8")]
     (t/is (instance? MimeBodyPart bp))
     (t/is (= "<foo-id>" (.getContentID bp)))))
+
+(t/deftest make-bodypart-with-utf-8-file-name-test
+  (let [part {:type "attachment" :content (io/resource "多羅葉.txt")}
+        bp (sut/make-bodypart part "UTF-8")]
+    (t/is (instance? MimeBodyPart bp))
+    (t/is (= ["text/plain"] (seq (.getHeader bp "Content-Type"))))
+    (t/is (= (MimeUtility/encodeText "多羅葉.txt" "UTF-8" nil)
+             (.getFileName bp)))))

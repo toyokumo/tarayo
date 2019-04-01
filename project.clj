@@ -19,6 +19,7 @@
                         [criterium "0.4.4"]
                         [com.draines/postal "2.0.3"]]
          :source-paths ["dev/src" "src"]
+         :resource-paths ["dev/resources"]
          :global-vars {*warn-on-reflection* true}}
 
    :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}

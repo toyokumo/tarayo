@@ -1,8 +1,8 @@
 (ns tarayo.mail.mime.multipart.body
   (:require [clojure.java.io :as io])
-  (:import [java.net MalformedURLException URL]
+  (:import [java.net MalformedURLException URL URLDecoder]
            javax.activation.DataHandler
-           javax.mail.internet.MimeBodyPart
+           [javax.mail.internet MimeBodyPart MimeUtility]
            org.apache.tika.Tika))
 
 (def ^Tika mime-detector (Tika.))
@@ -35,15 +35,19 @@
 
 (def ^:private separator (System/getProperty "file.separator"))
 
-(defn- extract-file-name [^URL url]
-  (last (.split (.getPath url) separator)))
+(defn- extract-file-name [^URL url ^String charset]
+  (-> (.getPath url)
+      (.split separator)
+      last
+      (URLDecoder/decode charset)
+      (MimeUtility/encodeText charset nil)))
 
-(defn- make-attachment-bodypart [part _charset]
+(defn- make-attachment-bodypart [part charset]
   (let [url (-> part :content ensure-url)
         content-id (:id part)]
     (doto (MimeBodyPart.)
       (.setDataHandler (DataHandler. url))
-      (.setFileName (extract-file-name url))
+      (.setFileName (extract-file-name url charset))
       (.setDisposition (-> part :type name))
       (.setHeader "Content-Type" (get part :content-type (detect-mime-type url)))
       (cond-> content-id (.setContentID (str "<" content-id ">"))))))
