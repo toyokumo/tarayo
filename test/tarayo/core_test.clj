@@ -66,3 +66,17 @@
           "true",      "mail.smtp.auth"
           nil,         "mail.smtp.starttls.enable")
         (t/is (= "smtp" (.getProtocol url-name)))))))
+
+(t/deftest header-injection-test
+  (h/with-test-smtp-server [srv port]
+    (let [from (h/random-address)
+          test-message {:from from :to "alice@example.com"
+                        :subject "hello\nFrom: bob@example.com" :body "world"}]
+      (with-open [conn (sut/connect {:port port})]
+        (t/is (= {:result :success} (sut/send! conn test-message))))
+
+      (t/is (= {:from from
+                :to "alice@example.com"
+                :subject "hello"
+                :body "world"}
+               (h/get-received-email-by-from srv from))))))
