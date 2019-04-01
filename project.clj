@@ -18,7 +18,7 @@
                         ;; for benchmark
                         [criterium "0.4.4"]
                         [com.draines/postal "2.0.3"]]
-         :source-paths ["dev" "src"]
+         :source-paths ["dev/src" "src"]
          :global-vars {*warn-on-reflection* true}}
 
    :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
