@@ -66,3 +66,10 @@
     (t/is (= ["text/plain"] (seq (.getHeader bp "Content-Type"))))
     (t/is (= (MimeUtility/encodeText "多羅葉.txt" "UTF-8" nil)
              (.getFileName bp)))))
+
+(t/deftest make-bodypart-with-content-encoding-test
+  (let [part {:type "attachment" :content (io/file "project.clj")
+              :content-encoding "base64"}
+        bp (sut/make-bodypart part "UTF-8")]
+    (t/is (instance? MimeBodyPart bp))
+    (t/is (= ["base64"] (seq (.getHeader bp "Content-Transfer-Encoding"))))))

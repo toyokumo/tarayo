@@ -44,13 +44,14 @@
 
 (defn- make-attachment-bodypart [part charset]
   (let [url (-> part :content ensure-url)
-        content-id (:id part)]
+        {:keys [id content-encoding]} part]
     (doto (MimeBodyPart.)
       (.setDataHandler (DataHandler. url))
       (.setFileName (extract-file-name url charset))
       (.setDisposition (-> part :type name))
       (.setHeader "Content-Type" (get part :content-type (detect-mime-type url)))
-      (cond-> content-id (.setContentID (str "<" content-id ">"))))))
+      (cond-> id (.setContentID (str "<" id ">")))
+      (cond-> content-encoding (.setHeader "Content-Transfer-Encoding" content-encoding)))))
 
 (defmethod make-bodypart :inline
   [part charset]

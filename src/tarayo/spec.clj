@@ -43,12 +43,14 @@
   (s/or :string ::non-blank-string?
         :data-handler #(instance? javax.activation.DataHandler %)))
 (s/def :body-part/content-type ::non-blank-string?)
+(s/def :body-part/content-encoding ::non-blank-string?)
 
 (s/def :message-body/text ::non-blank-string?)
 (s/def :message-body/part (s/keys :req-un [:body-part/type
-                                    :body-part/content]
-                           :opt-un [:body-part/id
-                                    :body-part/content-type]))
+                                           :body-part/content]
+                                  :opt-un [:body-part/id
+                                           :body-part/content-type
+                                           :body-part/content-encoding ]))
 (s/def :message-body/parts (s/+ ::body-part))
 
 (s/def :message/body
