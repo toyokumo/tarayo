@@ -26,6 +26,10 @@
                :subject (.getHeaderValue msg "Subject")
                :body (.getBody msg)}))))
 
+(defn get-received-email-by-from [^SimpleSmtpServer server ^String from-addr]
+  (->> (get-received-emails server)
+       (some #(when (= from-addr (:from %)) %))))
+
 (defmacro with-test-smtp-server [[server-sym port-sym] & body]
   `(with-open [~server-sym (SimpleSmtpServer/start SimpleSmtpServer/AUTO_SMTP_PORT)]
      (let [~port-sym (.getPort ~server-sym)]
