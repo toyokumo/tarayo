@@ -27,7 +27,7 @@
       (with-open [trans (sut/make-transport sess (:protocol smtp-server))]
         (sut/connect! trans smtp-server)
         (t/is (.isConnected trans))
-        (t/is (= {:result :success}
+        (t/is (= {:result :success :code 250 :message "250 OK\n"}
                  (sut/send! trans (mime/make-message sess test-message)))))
 
       (let [mails (h/get-received-emails srv)]
@@ -46,7 +46,8 @@
       (t/is
        (compatible
         (sut/send! trans (mime/make-message sess test-message))
-        (fj/just {:result :fail
+        (fj/just {:result :failed
+                  :code 0
                   :message (fj/checker #(and (string? %)
                                              (not (str/blank? %))))
                   :cause (fj/checker #(instance? Exception %))})))

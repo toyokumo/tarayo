@@ -14,7 +14,10 @@
 
       (with-open [conn (sut/connect {:port port})]
         (t/is (sut/connected? conn))
-        (t/is (= {:result :success} (sut/send! conn test-message))))
+        (t/is (= {:result :success
+                  :code 250
+                  :message "250 OK\n"}
+                 (sut/send! conn test-message))))
 
       (t/is (= [test-message] (h/get-received-emails srv))))))
 
@@ -73,7 +76,8 @@
           test-message {:from from :to "alice@example.com"
                         :subject "hello\nFrom: bob@example.com" :body "world"}]
       (with-open [conn (sut/connect {:port port})]
-        (t/is (= {:result :success} (sut/send! conn test-message))))
+        (t/is (= {:result :success :code 250 :message "250 OK\n"}
+                 (sut/send! conn test-message))))
 
       (t/is (= {:from from
                 :to "alice@example.com"
