@@ -1,0 +1,14 @@
+= Change Log
+
+All notable changes to this project will be documented in this file. This change log follows the conventions of http://keepachangelog.com/[keepachangelog.com].
+
+== Unreleased (dev)
+=== Fixed
+
+* https://github.com/liquidz/tarayo/issues/1[#1] Fix to construct default User-Agent correctly.
+
+== 0.1.0 (2019-03-31)
+// {{{
+* Initial release
+// }}}
+// vim:fdm=marker:fdl=0
