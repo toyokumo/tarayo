@@ -3,9 +3,7 @@
             [tarayo.mail.mime :as mime]
             [tarayo.mail.session :as session]
             [tarayo.mail.transport :as sut]
-            [tarayo.test-helper :as h]
-            [fudje.sweet :as fj]
-            [clojure.string :as str])
+            [tarayo.test-helper :as h])
   (:import [com.dumbster.smtp SimpleSmtpServer SmtpMessage]
            javax.mail.Transport))
 
@@ -43,12 +41,12 @@
                         :subject "hello" :body "world"}]
       (t/is (empty? (h/get-received-emails srv)))
       (t/is (not (.isConnected trans)))
-      (t/is
-       (compatible
-        (sut/send! trans (mime/make-message sess test-message))
-        (fj/just {:result :failed
-                  :code 0
-                  :message (fj/checker #(and (string? %)
-                                             (not (str/blank? %))))
-                  :cause (fj/checker #(instance? Exception %))})))
+
+      (let [{:keys [result code message cause]} (sut/send! trans (mime/make-message sess test-message))]
+        (t/is (= :failed result))
+        (t/is (= 0 code))
+        (t/is (and (string? message)
+                   (seq message)))
+        (t/is (instance? Exception cause)))
+
       (t/is (empty? (h/get-received-emails srv))))))
