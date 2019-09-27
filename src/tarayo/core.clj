@@ -4,13 +4,14 @@
             [tarayo.mail.transport :as transport])
   (:import javax.mail.Transport))
 
-(defprotocol ITarayo
-  (send! [this message])
-  (connected? [this])
-  (close [this]))
+(defprotocol ISMTPConnection
+  "FIXME"
+  (send! [this message] "FIXME")
+  (connected? [this] "FIXME")
+  (close [this] "FIXME"))
 
-(defrecord TarayoConnection [session transport]
-  ITarayo
+(defrecord SMTPConnection [session transport]
+  ISMTPConnection
   (send! [this message]
     (->> message
          (mime/make-message (:session this))
@@ -19,7 +20,8 @@
   (connected? [this]
     (.isConnected ^Transport (:transport this)))
 
-  (close [this] (.close ^Transport (:transport this))))
+  (close [this]
+    (.close ^Transport (:transport this))))
 
 (defn- get-defaults [{:keys [ssl tls user]}]
   {:host "localhost"
@@ -30,7 +32,8 @@
    :auth (some? user)
    :protocol (if ssl "smtps" "smtp")})
 
-(defn ^TarayoConnection connect
+(defn ^SMTPConnection
+  connect
   "smtp-server
   {:host 'localhost' :port 1025}
   "
@@ -39,7 +42,7 @@
    (let [smtp-server (merge (get-defaults smtp-server)
                             smtp-server)
          sess (session/make-session smtp-server)]
-     (map->TarayoConnection
+     (map->SMTPConnection
       {:session sess
        :transport (doto ^Transport (transport/make-transport sess (:protocol smtp-server))
                     (transport/connect! smtp-server))}))))

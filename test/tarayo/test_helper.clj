@@ -3,7 +3,7 @@
   (:import [com.dumbster.smtp SimpleSmtpServer SmtpMessage]))
 
 (defrecord TestConnection [session transport]
-  tarayo.core.ITarayo
+  tarayo.core.ISMTPConnection
   (send! [this message] {:fn :send! :message message})
   (connected? [this] true)
   (close [this] nil))
