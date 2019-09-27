@@ -1,5 +1,6 @@
 (ns tarayo.core-test
   (:require [clojure.test :as t]
+            [shrubbery.core :as shrubbery]
             [tarayo.core :as sut]
             [tarayo.mail.transport :as transport]
             [tarayo.test-helper :as h])
@@ -84,3 +85,10 @@
                 :subject "hello"
                 :body "world"}
                (h/get-received-email-by-from srv from))))))
+
+(t/deftest stubbing-test
+  (let [conn (shrubbery/stub
+              sut/ISMTPConnection
+              {:send! "sent" :connected? true :close true})]
+    (t/is (= "sent" (sut/send! conn {})))
+    (t/is (true? (sut/connected? conn)))))

@@ -93,7 +93,7 @@ Connection with user authentication::
   (tarayo/send! conn {:from "alice@example.com"
                       :to "bob@example.com"
                       :subject "hello"
-                      :content-type "text/html
+                      :content-type "text/html"
                       :body "<h1>world</h1>"}))
 ----
 
@@ -140,6 +140,22 @@ Connection with user authentication::
                         :subject "hello"
                         :body [{:type "text/html" :content (str "<img src=\"cid:" content-id "\" /> world")}
                                {:type "inline" :content (io/file "/image.png") :id content-id}]})))
+----
+
+==  Stubbing
+
+Example using https://github.com/bguthrie/shrubbery[shrubbery].
+
+[source,clojure]
+----
+(require '[shrubbery.core :as shrubbery])
+
+(let [conn (shrubbery/stub
+            tarayo/ISMTPConnection
+            {:send! "ok"
+             :connected? true
+             :close true})]
+  (sut/send! conn "foo"))
 ----
 
 == License

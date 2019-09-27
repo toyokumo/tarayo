@@ -19,7 +19,9 @@
 
                         ;; for benchmark
                         [criterium "0.4.5"]
-                        [com.draines/postal "2.0.3"]]
+                        [com.draines/postal "2.0.3"]
+                        ;; for stubbing
+                        [com.gearswithingears/shrubbery "0.4.1"]]
          :source-paths ["dev/src" "src"]
          :resource-paths ["dev/resources"]
          :global-vars {*warn-on-reflection* true}}
