@@ -1,0 +1,4 @@
+{
+ :linters {:unresolved-symbol
+           {:exclude [(tarayo.test-helper/with-test-smtp-server [srv port])]}}
+ }

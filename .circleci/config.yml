@@ -28,3 +28,18 @@ jobs:
       - run: lein test-integration
       - run: lein cloverage --codecov
       - run: bash <(curl -s https://codecov.io/bash)
+
+  lint:
+    docker:
+      - image: borkdude/clj-kondo
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: clj-kondo --lint src:test:integration
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - lint
+      - build
