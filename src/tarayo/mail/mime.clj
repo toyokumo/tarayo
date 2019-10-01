@@ -1,6 +1,7 @@
 (ns tarayo.mail.mime
   (:require [clojure.java.io :as io]
             [clojure.set :as set]
+            [clojure.string :as str]
             [tarayo.mail.mime.address :as address]
             [tarayo.mail.mime.message :as message]
             [tarayo.mail.mime.multipart :as multipart])
@@ -17,11 +18,8 @@
   #{:bcc :body :cc :content-type :date :from :message-id :multipart :reply-to :subject :to})
 
 (def ^:private default-user-agent
-  (let [prop (doto (Properties.)
-               (.load (-> "META-INF/maven/tarayo/tarayo/pom.properties"
-                          io/resource
-                          io/input-stream)))]
-    (str "tarayo/" (.getProperty prop "version"))))
+  (->> (io/resource "VERSION") slurp str/trim
+       (str "tarayo/")))
 
 (defn ^MimeMessage make-message [^Session session message]
   (let [{:keys [charset content-type cc bcc body multipart]} (merge defaults message)]
