@@ -13,7 +13,6 @@
 
   :profiles
   {:dev {:dependencies [[org.clojure/clojure "1.9.0"]
-                        [fudje "0.9.7"]
                         [orchestra "2019.02.06-1"]
                         [com.github.kirviq/dumbster "1.7.1"]
 

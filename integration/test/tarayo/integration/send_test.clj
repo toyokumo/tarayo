@@ -4,7 +4,6 @@
             [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.test :as t]
-            [fudje.sweet :as fj]
             [org.httpkit.client :as http]
             [tarayo.core :as core]
             [tarayo.test-helper :as h])
@@ -35,25 +34,21 @@
                         :charset "UTF-8"
                         :date (.getTime now)}))
     (let [resp (find-mail-by-from from)
-          item (get-in resp [:items 0])]
+          item (get-in resp [:items 0])
+          headers (some-> item (get-in [:content :headers]))]
       (t/is (= 1 (:total resp)))
       (t/is (= 1 (count (:to item))))
-      (t/is
-       (compatible
-        (first (:to item))
-        (fj/contains {:mailbox "alice" :domain "example.com"})))
+      (t/is (= {:mailbox "alice" :domain "example.com"}
+               (-> item :to first (select-keys [:mailbox :domain]))))
 
-      (t/is
-       (compatible
-        (get-in item [:content :headers])
-        (fj/contains {:charset ["UTF-8"]
-                      :content-type ["text/plain; charset=UTF-8"]
-                      :date [(fj/checker #(str/starts-with? % "Sat, 3 Sep 2112 "))]
-                      :from [from]
-                      :message-id (fj/checker h/tarayo-message-id?)
-                      :subject ["hello"]
-                      :to ["alice@example.com"]
-                      :user-agent (fj/checker h/tarayo-user-agent?)})))
+      (t/is (= ["UTF-8"] (:charset headers)))
+      (t/is (= ["text/plain; charset=UTF-8"] (:content-type headers)))
+      (t/is (str/starts-with? (first (:date headers)) "Sat, 3 Sep 2112 "))
+      (t/is (= [from] (:from headers)))
+      (t/is (h/tarayo-message-id? (:message-id headers)))
+      (t/is (= ["hello"] (:subject headers)))
+      (t/is (= ["alice@example.com"] (:to headers)))
+      (t/is (h/tarayo-user-agent? (:user-agent headers)))
 
       (t/is (= "world" (get-in item [:content :body]))))))
 
@@ -75,13 +70,12 @@
       (core/send! conn {:from from :to "alice@example.com" :subject "hello" :body "world"})
       (core/send! conn {:from from :to "bob@example.com" :subject "foo" :body "bar"}))
     (let [resp (find-mail-by-from from)]
-      (t/is (= 2 (:total resp)))
-      (t/is
-       (compatible
-        (map #(-> % :content :headers (select-keys [:to :subject])) (:items resp))
-        (fj/just [{:to ["alice@example.com"] :subject ["hello"]}
-                  {:to ["bob@example.com"] :subject ["foo"]}]
-                 :in-any-order))))))
+      (t/is (= 2 (:total resp) (count (:items resp))))
+      (t/is (= [{:to ["bob@example.com"] :subject ["foo"]}
+                {:to ["alice@example.com"] :subject ["hello"]}]
+               (->> (:items resp)
+                    (map #(-> % :content :headers (select-keys [:to :subject])))
+                    (sort-by :subject)))))))
 
 (t/deftest send-multipart-mixed-mail-test
   (let [from (h/random-address)]
@@ -91,26 +85,24 @@
                                {:type "attachment" :content (io/file "project.clj")}]}))
     (let [resp (find-mail-by-from from)
           item (get-in resp [:items 0])
-          ;; NOTE: mailhog contains blank part
-          mime-parts (drop-last (get-in item [:mime :parts]))]
+          mime-parts (->> (get-in item [:mime :parts])
+                          ;; NOTE: mailhog contains blank part
+                          drop-last)]
       (t/is (= 1 (:total resp)))
       (t/is (= 2 (count mime-parts)))
 
       (t/is (str/starts-with? (get-in item [:content :headers :content-type 0])
                               "multipart/mixed; "))
 
-      (t/is
-       (compatible
-        (first mime-parts)
-        (fj/contains {:headers (fj/contains {:content-type ["text/plain; charset=utf-8"]})
-                      :body "world"})))
+      (let [{:keys [headers body]} (first mime-parts)]
+        (t/is (= ["text/plain; charset=utf-8"]
+                 (:content-type headers)))
+        (t/is (= "world" body)))
 
-      (t/is
-       (compatible
-        (second mime-parts)
-        (fj/contains {:headers (fj/contains {:content-disposition ["attachment; filename=project.clj"]
-                                             :content-type ["text/x-clojure"]})
-                      :body (fj/checker any?)}))))))
+      (let [{:keys [headers body]} (second mime-parts)]
+        (t/is (= ["text/x-clojure"] (:content-type headers)))
+        (t/is (= ["attachment; filename=project.clj"] (:content-disposition headers)))
+        (t/is (and (string? body) (not (str/blank? body))))))))
 
 (t/deftest send-multipart-alternative-mail-test
   (let [from (h/random-address)]
@@ -129,13 +121,10 @@
       (t/is (str/starts-with? (get-in item [:content :headers :content-type 0])
                               "multipart/alternative; "))
 
-      (t/is
-       (compatible
-        (first mime-parts)
-        (fj/contains {:headers (fj/contains {:content-type ["text/plain; charset=utf-8"]})
-                      :body "world"})))
-      (t/is
-       (compatible
-        (second mime-parts)
-        (fj/contains {:headers (fj/contains {:content-type ["text/html; charset=utf-8"]})
-                      :body "<p>world</p>"}))))))
+      (let [{:keys [headers body]} (first mime-parts)]
+        (t/is (= ["text/plain; charset=utf-8"] (:content-type headers)))
+        (t/is (= "world" body)))
+
+      (let [{:keys [headers body]} (second mime-parts)]
+        (t/is (= ["text/html; charset=utf-8"] (:content-type headers)))
+        (t/is (= "<p>world</p>" body))))))
