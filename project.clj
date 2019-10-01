@@ -33,7 +33,7 @@
               :test-paths ["integration/test"]}]}
   :aliases
   {"test-all" ["with-profile" "1.9,dev:1.10,dev" "test"]
-   "test-whale" ["with-profile" "1.9,it:1.10,it" "test"]
+   "test-integration" ["with-profile" "1.9,it:1.10,it" "test"]
    "benchmark" ["run" "-m" "benchmark"]}
 
   :plugins [[lein-cloverage "1.1.2"]]
