@@ -1,11 +1,10 @@
 (ns tarayo.mail.session
   (:require
-   [camel-snake-kebab.core :as csk])
+   [camel-snake-kebab.core :as csk]
+   [tarayo.mail.constant :as constant])
   (:import
    java.util.Properties
    javax.mail.Session))
-
-(def ^:private protocols #{"smtp" "smtps"})
 
 (defn- transform
   [m]
@@ -13,7 +12,8 @@
    (fn [[k v]]
      (let [v (cond-> v (boolean? v) str)]
        (if (keyword? k)
-         (map #(vector (str "mail." % "." (csk/->camelCaseString k)) v) protocols)
+         (map #(vector (str "mail." % "." (csk/->camelCaseString k)) v)
+              constant/supported-protocols)
          [[k v]])))
    m))
 
