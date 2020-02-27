@@ -10,14 +10,14 @@ SMTP client library for Clojure. That's it.
 
 +++
 <p>
-  <a href="https://circleci.com/gh/liquidz/tarayo">
-    <img src="https://img.shields.io/circleci/project/github/liquidz/tarayo/master.svg?logo=CircleCI" alt="CircleCI" />
+  <a href="https://circleci.com/gh/toyokumo/tarayo">
+    <img src="https://img.shields.io/circleci/project/github/toyokumo/tarayo/master.svg?logo=CircleCI" alt="CircleCI" />
   </a>
-  <a href="https://codecov.io/gh/liquidz/tarayo">
-    <img src="https://codecov.io/gh/liquidz/tarayo/branch/master/graph/badge.svg" alt="Codecov" />
+  <a href="https://codecov.io/gh/toyokumo/tarayo">
+    <img src="https://codecov.io/gh/toyokumo/tarayo/branch/master/graph/badge.svg" alt="Codecov" />
   </a>
-  <a href="https://versions.deps.co/liquidz/tarayo" title="Dependencies Status">
-    <img src="https://versions.deps.co/liquidz/tarayo/status.svg" />
+  <a href="https://versions.deps.co/toyokumo/tarayo" title="Dependencies Status">
+    <img src="https://versions.deps.co/toyokumo/tarayo/status.svg" />
   </a>
   <a href="https://cljdoc.org/d/tarayo/tarayo/CURRENT">
     <img src="https://cljdoc.org/badge/tarayo/tarayo" />
@@ -43,7 +43,7 @@ Tarayo is heavily inspired by https://github.com/drewr/postal[drewr/postal].
 == Usage
 
 
-link:https://clojars.org/tarayo[image:https://img.shields.io/clojars/v/tarayo.svg[]]
+link:https://clojars.org/toyokumo/tarayo[image:https://img.shields.io/clojars/v/toyokumo/tarayo.svg[]]
 
 [source,clojure]
 ----
