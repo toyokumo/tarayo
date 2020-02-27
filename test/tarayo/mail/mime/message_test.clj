@@ -72,7 +72,7 @@
 (t/deftest set-content-test
   (t/testing "multipart"
     (let [msg (gen-test-message)
-          parts [{:type "text/html" :content "<p>hello</p>"}]
+          parts [{:content-type "text/html" :content "<p>hello</p>"}]
           mp (multipart/make-multipart "mixed" parts "utf-8")]
       (sut/set-content msg mp)
       (t/is (instance? MimeMultipart (.getContent msg)))))

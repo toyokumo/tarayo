@@ -8,8 +8,8 @@
 
 (t/deftest make-multipart-test
   (let [mp (sut/make-multipart "mixed"
-                               [{:type "text/html" :content "foo"}
-                                {:type :attachment :content (io/file "project.clj")}]
+                               [{:content-type "text/html" :content "foo"}
+                                {:content (io/file "project.clj")}]
                                "UTF-8")]
     (t/is (instance? MimeMultipart mp))
     (t/is (= 2 (.getCount mp)))
@@ -29,8 +29,8 @@
 
 (t/deftest make-multipart-alternative-test
   (let [mp (sut/make-multipart "alternative"
-                               [{:type "text/plain" :content "foo"}
-                                {:type "text/html" :content "<p>foo</p>"}]
+                               [{:content-type "text/plain" :content "foo"}
+                                {:content-type "text/html" :content "<p>foo</p>"}]
                                "UTF-8")]
     (t/is (instance? MimeMultipart mp))
     (t/is (= 2 (.getCount mp)))

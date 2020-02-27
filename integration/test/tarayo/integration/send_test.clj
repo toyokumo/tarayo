@@ -81,8 +81,8 @@
   (let [from (h/random-address)]
     (with-open [conn (core/connect mailhog-server)]
       (core/send! conn {:from from :to "alice@example.com" :subject "hello"
-                        :body [{:type "text/plain" :content "world"}
-                               {:type "attachment" :content (io/file "project.clj")}]}))
+                        :body [{:content-type "text/plain" :content "world"}
+                               {:content (io/file "project.clj")}]}))
     (let [resp (find-mail-by-from from)
           item (get-in resp [:items 0])
           mime-parts (->> (get-in item [:mime :parts])
@@ -109,8 +109,8 @@
     (with-open [conn (core/connect mailhog-server)]
       (core/send! conn {:from from :to "alice@example.com" :subject "hello"
                         :multipart "alternative"
-                        :body [{:type "text/plain" :content "world"}
-                               {:type "text/html" :content "<p>world</p>"}]}))
+                        :body [{:content-type "text/plain" :content "world"}
+                               {:content-type "text/html" :content "<p>world</p>"}]}))
     (let [resp (find-mail-by-from from)
           item (get-in resp [:items 0])
           ;; NOTE: mailhog contains blank part
