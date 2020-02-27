@@ -14,7 +14,6 @@
 
   :profiles
   {:dev {:dependencies [[org.clojure/clojure "1.9.0"]
-                        [orchestra "2019.02.06-1"]
                         [com.github.kirviq/dumbster "1.7.1"]
 
                         ;; for benchmark
@@ -38,9 +37,7 @@
    "benchmark" ["run" "-m" "benchmark"]}
 
   :plugins [[lein-cloverage "1.1.2"]]
-  :cloverage {:ns-exclude-regex [#"user"
-                                 #"benchmark"
-                                 #"tarayo\.spec"]}
+  :cloverage {:ns-exclude-regex [#"benchmark"]}
 
   :release-tasks [["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
