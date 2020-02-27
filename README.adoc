@@ -110,8 +110,9 @@ Connection with user authentication::
                       ;; Default multipart type is "mixed"
                       :body [;; string content will be handled as "text message" while others are handled as "attachment file"
                              {:content "world"}
-                             ;; content-type is automatically detected
+                             ;; If you don't specify `:content-type`, tarayo will detect it using Apache Tika automatically.
                              {:content (io/file "/file")}
+                             ;; Of cource, you can specify `:content-type` manually.
                              {:content (io/file "/image.png") :content-type "image/png"}]}))
 ----
 
