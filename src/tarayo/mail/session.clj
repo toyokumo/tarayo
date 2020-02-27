@@ -1,5 +1,5 @@
 (ns tarayo.mail.session
-  (:require [clojure.set :as set])
+  (:require [camel-snake-kebab.core :as csk])
   (:import java.util.Properties
            javax.mail.Session))
 
@@ -10,7 +10,7 @@
    (fn [[k v]]
      (let [v (cond-> v (boolean? v) str)]
        (if (keyword? k)
-         (map #(vector (str "mail." % "." (name k)) v) protocols)
+         (map #(vector (str "mail." % "." (csk/->camelCaseString k)) v) protocols)
          [[k v]])))
    m))
 
