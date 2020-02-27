@@ -6,8 +6,9 @@
 (defn ^InternetAddress
   make-address
   [addr charset]
-  (let [^InternetAddress addr (cond-> addr (not (instance? InternetAddress addr))
-                                      (InternetAddress.))]
+  (let [^InternetAddress addr (cond-> addr
+                                (not (instance? InternetAddress addr))
+                                (InternetAddress.))]
     (InternetAddress. (.getAddress addr)
                       (.getPersonal addr)
                       charset)))
