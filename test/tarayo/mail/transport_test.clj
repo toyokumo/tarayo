@@ -6,24 +6,36 @@
    [tarayo.mail.transport :as sut]
    [tarayo.test-helper :as h])
   (:import
-   javax.mail.Transport))
+   (com.sun.mail.smtp
+    SMTPSSLTransport
+    SMTPTransport)))
 
 (t/deftest make-transport-test
-  (let [smtp-server {:host "localhost" :port 9876 :protocol "smtp"}
-        sess (session/make-session smtp-server)
-        trans (sut/make-transport sess (:protocol smtp-server))]
-    (t/is (instance? Transport trans))
-    (t/is (not (.isConnected trans)))))
+  (t/testing "smtp protocol"
+    (let [smtp-server {:host "localhost" :port 9876}
+          sess (session/make-session smtp-server)
+          trans (sut/make-transport sess)]
+      (t/is (instance? SMTPTransport trans))
+      (t/is (not (instance? SMTPSSLTransport trans)))
+      (t/is (not (.isConnected trans)))))
+
+  (t/testing "smpts protocol"
+    (let [smtp-server {:host "localhost" :port 9876 :ssl.enable true}
+          sess (session/make-session smtp-server)
+          trans (sut/make-transport sess)]
+      (t/is (instance? SMTPTransport trans))
+      (t/is (instance? SMTPSSLTransport trans))
+      (t/is (not (.isConnected trans))))))
 
 (t/deftest connect!-and-send!-test
   (h/with-test-smtp-server [srv port]
-    (let [smtp-server {:host "localhost" :port port :protocol "smtp"}
+    (let [smtp-server {:host "localhost" :port port}
           sess (session/make-session smtp-server)
           test-message {:from "alice@example.com" :to "bob@example.com"
                         :subject "hello" :body "world"}]
       (t/is (empty? (h/get-received-emails srv)))
 
-      (with-open [trans (sut/make-transport sess (:protocol smtp-server))]
+      (with-open [trans (sut/make-transport sess)]
         (sut/connect! trans smtp-server)
         (t/is (.isConnected trans))
         (t/is (= {:result :success :code 250 :message "250 OK\n"}
@@ -35,9 +47,9 @@
 
 (t/deftest connect!-error-test
   (h/with-test-smtp-server [srv port]
-    (let [smtp-server {:host "localhost" :port port :protocol "smtp"}
+    (let [smtp-server {:host "localhost" :port port}
           sess (session/make-session smtp-server)
-          trans (sut/make-transport sess (:protocol smtp-server))
+          trans (sut/make-transport sess)
           test-message {:from "alice@example.com" :to "bob@example.com"
                         :subject "hello" :body "world"}]
       (t/is (empty? (h/get-received-emails srv)))

@@ -6,9 +6,16 @@
    (javax.mail.internet
     MimeMessage)))
 
+(defn- ^String get-protocol
+  [^Session session]
+  ;; c.f. https://jakarta.ee/specifications/mail/1.6/apidocs/com/sun/mail/smtp/package-summary.html
+  (if (= "true" (.getProperty session "mail.smtp.ssl.enable"))
+    "smtps"
+    "smtp"))
+
 (defn ^SMTPTransport make-transport
-  [^Session session ^String protocol]
-  (.getTransport session protocol))
+  [^Session session]
+  (.getTransport session (get-protocol session)))
 
 (defn connect!
   "Make connection to the specified SMTP server.

@@ -51,13 +51,6 @@
     [this]
     (.close ^Transport (:transport this))))
 
-(defn- get-protocol
-  [smtp-server]
-  ;; c.f. https://jakarta.ee/specifications/mail/1.6/apidocs/com/sun/mail/smtp/package-summary.html
-  (if (contains? smtp-server :ssl.enable)
-    "smtps"
-    "smtp"))
-
 (defn- get-defaults
   [{:keys [user] :as smtp-server}]
   {:host "localhost"
@@ -88,5 +81,5 @@
          sess (session/make-session smtp-server)]
      (map->SMTPConnection
       {:session sess
-       :transport (doto ^Transport (transport/make-transport sess (get-protocol smtp-server))
+       :transport (doto ^Transport (transport/make-transport sess)
                     (transport/connect! smtp-server))}))))
