@@ -1,10 +1,15 @@
 (ns tarayo.mail.mime-test
-  (:require [clojure.string :as str]
-            [clojure.test :as t]
-            [tarayo.mail.mime :as sut]
-            [tarayo.mail.mime.message :as message]
-            [tarayo.test-helper :as h])
-  (:import [javax.mail.internet InternetAddress MimeMessage MimeMultipart]))
+  (:require
+   [clojure.string :as str]
+   [clojure.test :as t]
+   [tarayo.mail.mime :as sut]
+   [tarayo.mail.mime.message :as message]
+   [tarayo.test-helper :as h])
+  (:import
+   (javax.mail.internet
+    InternetAddress
+    MimeMessage
+    MimeMultipart)))
 
 (t/deftest make-message-test
   (let [{:keys [session]} (h/test-connection)
@@ -39,8 +44,8 @@
 (t/deftest make-message-with-sequential-bodies-test
   (let [{:keys [session]} (h/test-connection)
         opts {:from "foo" :to "bar" :subject "hello" :charset "UTF-8"
-              :body [{:type "text/plain" :content "world"}
-                     {:type "text/html" :content "<p>world</p>"}]}
+              :body [{:content-type "text/plain" :content "world"}
+                     {:content-type "text/html" :content "<p>world</p>"}]}
         msg (sut/make-message session opts)
         content (.getContent msg)]
     (t/is (instance? MimeMessage msg))
@@ -51,7 +56,7 @@
 (t/deftest make-message-with-multipart-type-test
   (let [{:keys [session]} (h/test-connection)
         base-opts {:from "foo" :to "bar" :subject "hello" :charset "UTF-8"
-                  :body [{:type "text/plain" :content "world"}]}]
+                   :body [{:content-type "text/plain" :content "world"}]}]
     (t/testing "alternative"
       (let [opts (assoc base-opts :multipart "alternative")
             ^MimeMultipart mp (.getContent (sut/make-message session opts))]

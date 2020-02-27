@@ -1,0 +1,8 @@
+{
+ :indents {defrecord [[:inner 0] [:inner 1]]
+           #"(.*/)?with-" [[:block 1]]}
+ :list-indent-size 1
+ :insert-padding-lines? false
+ :reformat-types? false
+ }
+; vim:ft=clojure

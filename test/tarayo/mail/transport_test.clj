@@ -1,13 +1,12 @@
 (ns tarayo.mail.transport-test
-  (:require [clojure.test :as t]
-            [tarayo.mail.mime :as mime]
-            [tarayo.mail.session :as session]
-            [tarayo.mail.transport :as sut]
-            [tarayo.test-helper :as h]
-            [fudje.sweet :as fj]
-            [clojure.string :as str])
-  (:import [com.dumbster.smtp SimpleSmtpServer SmtpMessage]
-           javax.mail.Transport))
+  (:require
+   [clojure.test :as t]
+   [tarayo.mail.mime :as mime]
+   [tarayo.mail.session :as session]
+   [tarayo.mail.transport :as sut]
+   [tarayo.test-helper :as h])
+  (:import
+   javax.mail.Transport))
 
 (t/deftest make-transport-test
   (let [smtp-server {:host "localhost" :port 9876 :protocol "smtp"}
@@ -27,7 +26,7 @@
       (with-open [trans (sut/make-transport sess (:protocol smtp-server))]
         (sut/connect! trans smtp-server)
         (t/is (.isConnected trans))
-        (t/is (= {:result :success}
+        (t/is (= {:result :success :code 250 :message "250 OK\n"}
                  (sut/send! trans (mime/make-message sess test-message)))))
 
       (let [mails (h/get-received-emails srv)]
@@ -43,11 +42,12 @@
                         :subject "hello" :body "world"}]
       (t/is (empty? (h/get-received-emails srv)))
       (t/is (not (.isConnected trans)))
-      (t/is
-       (compatible
-        (sut/send! trans (mime/make-message sess test-message))
-        (fj/just {:result :fail
-                  :message (fj/checker #(and (string? %)
-                                             (not (str/blank? %))))
-                  :cause (fj/checker #(instance? Exception %))})))
+
+      (let [{:keys [result code message cause]} (sut/send! trans (mime/make-message sess test-message))]
+        (t/is (= :failed result))
+        (t/is (= 0 code))
+        (t/is (and (string? message)
+                   (seq message)))
+        (t/is (instance? Exception cause)))
+
       (t/is (empty? (h/get-received-emails srv))))))
