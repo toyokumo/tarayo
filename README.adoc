@@ -66,9 +66,9 @@ You need to call `tarayo.core/close` function before quitting, or use https://cl
 Other examples are follows:
 
 SSL connection::
-`(tarayo/connect {:host "localhost" :port 465 :ssl true})`
+`(tarayo/connect {:host "localhost" :port 465 :ssl.enable true})`
 TLS connection::
-`(tarayo/connect {:host "localhost" :port 587 :tls true})`
+`(tarayo/connect {:host "localhost" :port 587 :starttls.enable true})`
 Connection with user authentication::
 `(tarayo/connect {:host "localhost" :port 25 :user "USERNAME" :password "PASSWORD"})`
 
@@ -108,10 +108,11 @@ Connection with user authentication::
                       :to "bob@example.com"
                       :subject "hello"
                       ;; Default multipart type is "mixed"
-                      :body [{:type "text/plain" :content "world"}
+                      :body [;; string content will be handled as "text message" while others are handled as "attachment file"
+                             {:content "world"}
                              ;; content-type is automatically detected
-                             {:type "attachment" :content (io/file "/file")}
-                             {:type "attachment" :content (io/file "/image.png") :content-type "image/png"}]}))
+                             {:content (io/file "/file")}
+                             {:content (io/file "/image.png") :content-type "image/png"}]}))
 ----
 
 ==== Multipart/alternative
@@ -123,23 +124,25 @@ Connection with user authentication::
                       :to "bob@example.com"
                       :subject "hello"
                       :multipart "alternative"
-                      :body [{:type "text/plain" :content "world"}
-                             {:type "text/html" :content "<h1>wold</h1>"}]}))
+                      :body [{:content-type "text/plain" :content "world"}
+                             {:content-type "text/html" :content "<h1>wold</h1>"}]}))
 ----
 
 ==== Inline image
 
 [source,clojure]
 ----
-(require '[clojure.java.io :as io])
+(require '[clojure.java.io :as io]
+         '[tarayo.mail.mime.id :as mime-id])
 
 (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-  (let [content-id (java.util.UUID/randomUUID)]
+  (let [content-id (mime-id/get-random)]
     (tarayo/send! conn {:from "alice@example.com"
                         :to "bob@example.com"
                         :subject "hello"
-                        :body [{:type "text/html" :content (str "<img src=\"cid:" content-id "\" /> world")}
-                               {:type "inline" :content (io/file "/image.png") :id content-id}]})))
+                        :body [{:content (str "<img src=\"cid:" content-id "\" /> world") :content-type "text/html}
+                               ;; containing id will be handled as "inline attachment file"
+                               {:content (io/file "/image.png") :id content-id}]})))
 ----
 
 ==  Stubbing
@@ -160,7 +163,7 @@ Example using https://github.com/bguthrie/shrubbery[shrubbery].
 
 == License
 
-Copyright © 2019 https://twitter.com/uochan[Masashi Iizuka]
+Copyright © 2019-2020 https://twitter.com/uochan[Masashi Iizuka]
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
