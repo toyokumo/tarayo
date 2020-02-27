@@ -19,8 +19,8 @@ SMTP client library for Clojure. That's it.
   <a href="https://versions.deps.co/toyokumo/tarayo" title="Dependencies Status">
     <img src="https://versions.deps.co/toyokumo/tarayo/status.svg" />
   </a>
-  <a href="https://cljdoc.org/d/tarayo/tarayo/CURRENT">
-    <img src="https://cljdoc.org/badge/tarayo/tarayo" />
+  <a href="https://cljdoc.org/d/toyokumo/tarayo/CURRENT">
+    <img src="https://cljdoc.org/badge/toyokumo/tarayo" />
   </a>
 </p>
 +++
