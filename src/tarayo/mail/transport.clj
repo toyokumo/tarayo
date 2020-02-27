@@ -6,11 +6,16 @@
 (defn ^SMTPTransport make-transport [^Session session ^String protocol]
   (.getTransport session protocol))
 
-(defn connect! [^SMTPTransport transport smtp-server]
+(defn connect!
+  "Make connection to the specified SMTP server.
+  This connection will be closed by `tarayo.core/close`."
+  [^SMTPTransport transport smtp-server]
   (let [{:keys [host port user password]} smtp-server]
     (.connect transport host port user password)))
 
-(defn send! [^SMTPTransport transport ^MimeMessage message]
+(defn send!
+  "Send a specified message via `SMTPTransport`."
+  [^SMTPTransport transport ^MimeMessage message]
   (try
     (.sendMessage transport message (.getAllRecipients message))
     {:result :success

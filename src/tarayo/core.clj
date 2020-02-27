@@ -5,10 +5,24 @@
   (:import javax.mail.Transport))
 
 (defprotocol ISMTPConnection
-  "FIXME"
-  (send! [this message] "FIXME")
-  (connected? [this] "FIXME")
-  (close [this] "FIXME"))
+  "TODO"
+  (send! [this message]
+    "Send a message.
+
+  message => Map
+    `:from`, `:to`, `:subject` and `:body` are required.
+    `:content-type`, `:multipart` and `:message-id-fn` are optional.
+
+  :message-id-fn => Function to generate custom Message-ID. No arguments are passed.
+
+  body => Content string or list of multipart maps
+  multipart map => map
+    :id           A Content-ID within multiparts. (OPTIONAL)
+                  `tarayo.mail.mime.id/get-random` is useful.
+    :content-type TODO
+    :content      TODO")
+  (connected? [this] "Return true if this connection is open.")
+  (close [this] "Close this connection."))
 
 (defrecord SMTPConnection [session transport]
   ISMTPConnection
@@ -39,9 +53,18 @@
 
 (defn ^SMTPConnection
   connect
-  "smtp-server
-  {:host 'localhost' :port 1025}
-  "
+  "Connect to the specified SMTP server.
+  If the connection is successful, an open `SMTPConnection` is returned.
+
+  smtp-server: A map (kebab-case is allowed)
+    :host
+    :port
+    :user
+    :password
+    :ssl.enable
+    :starttls.enable
+
+  https://jakarta.ee/specifications/mail/1.6/apidocs/com/sun/mail/smtp/package-summary.html"
   ([] (connect {}))
   ([smtp-server]
    (let [smtp-server (merge (get-defaults smtp-server)

@@ -25,7 +25,10 @@
       (.put props k v))
     props))
 
-(defn ^Session make-session [smtp-server]
-  (let [props (session-properties smtp-server)]
-    (doto (Session/getInstance props)
-      (.setDebug (get smtp-server :debug false)))))
+(defn ^Session make-session
+  "Create `javax.mail.Session` instance and return it."
+  ([] (make-session {}))
+  ([smtp-server]
+   (let [props (session-properties smtp-server)]
+     (doto (Session/getInstance props)
+       (.setDebug (get smtp-server :debug false))))))
