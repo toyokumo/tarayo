@@ -1,11 +1,12 @@
 (ns tarayo.mail.transport-test
-  (:require [clojure.test :as t]
-            [tarayo.mail.mime :as mime]
-            [tarayo.mail.session :as session]
-            [tarayo.mail.transport :as sut]
-            [tarayo.test-helper :as h])
-  (:import [com.dumbster.smtp SimpleSmtpServer SmtpMessage]
-           javax.mail.Transport))
+  (:require
+   [clojure.test :as t]
+   [tarayo.mail.mime :as mime]
+   [tarayo.mail.session :as session]
+   [tarayo.mail.transport :as sut]
+   [tarayo.test-helper :as h])
+  (:import
+   javax.mail.Transport))
 
 (t/deftest make-transport-test
   (let [smtp-server {:host "localhost" :port 9876 :protocol "smtp"}

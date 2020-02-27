@@ -1,7 +1,10 @@
 (ns tarayo.mail.mime.address-test
-  (:require [clojure.test :as t]
-            [tarayo.mail.mime.address :as sut])
-  (:import javax.mail.internet.InternetAddress))
+  (:require
+   [clojure.test :as t]
+   [tarayo.mail.mime.address :as sut])
+  (:import
+   (javax.mail.internet
+    InternetAddress)))
 
 (t/deftest make-address-test
   (t/testing "String"

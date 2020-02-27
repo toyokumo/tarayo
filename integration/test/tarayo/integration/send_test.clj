@@ -1,13 +1,15 @@
 (ns tarayo.integration.send-test
-  (:require [camel-snake-kebab.core :as csk]
-            [clojure.data.json :as json]
-            [clojure.java.io :as io]
-            [clojure.string :as str]
-            [clojure.test :as t]
-            [org.httpkit.client :as http]
-            [tarayo.core :as core]
-            [tarayo.test-helper :as h])
-  (:import java.util.Calendar))
+  (:require
+   [camel-snake-kebab.core :as csk]
+   [clojure.data.json :as json]
+   [clojure.java.io :as io]
+   [clojure.string :as str]
+   [clojure.test :as t]
+   [org.httpkit.client :as http]
+   [tarayo.core :as core]
+   [tarayo.test-helper :as h])
+  (:import
+   java.util.Calendar))
 
 (def ^:private mailhog-server
   {:host "localhost" :port 1025})
@@ -19,7 +21,8 @@
   (doto (Calendar/getInstance)
     (.set 2112 (dec 9) 3)))
 
-(defn- find-mail-by-from [from-address]
+(defn- find-mail-by-from
+  [from-address]
   (let [resp @(http/get mailhog-search-api-endpoint
                         {:query-params {:kind "from" :query from-address}})]
     (json/read-str (:body resp) :key-fn (comp keyword csk/->kebab-case))))

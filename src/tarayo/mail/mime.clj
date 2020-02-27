@@ -1,14 +1,16 @@
 (ns tarayo.mail.mime
-  (:require [clojure.java.io :as io]
-            [clojure.set :as set]
-            [clojure.string :as str]
-            [tarayo.mail.constant :as constant]
-            [tarayo.mail.mime.address :as address]
-            [tarayo.mail.mime.message :as message]
-            [tarayo.mail.mime.multipart :as multipart])
-  (:import java.util.Properties
-           javax.mail.internet.MimeMessage
-           javax.mail.Session))
+  (:require
+   [clojure.java.io :as io]
+   [clojure.set :as set]
+   [clojure.string :as str]
+   [tarayo.mail.constant :as constant]
+   [tarayo.mail.mime.address :as address]
+   [tarayo.mail.mime.message :as message]
+   [tarayo.mail.mime.multipart :as multipart])
+  (:import
+   javax.mail.Session
+   (javax.mail.internet
+    MimeMessage)))
 
 (def ^:private non-extra-headers
   #{:bcc :body :cc :content-type :date :from :message-id :multipart :reply-to :subject :to})
@@ -17,7 +19,8 @@
   (->> (io/resource "VERSION") slurp str/trim
        (str "tarayo/")))
 
-(defn ^MimeMessage make-message [^Session session message]
+(defn ^MimeMessage make-message
+  [^Session session message]
   (let [{:keys [charset content-type cc bcc body multipart]} message
         charset (or charset constant/default-charset)
         content-type (or content-type constant/default-content-type)

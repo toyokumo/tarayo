@@ -1,7 +1,9 @@
 (ns tarayo.mail.session-test
-  (:require [clojure.test :as t]
-            [tarayo.mail.session :as sut])
-  (:import javax.mail.Session))
+  (:require
+   [clojure.test :as t]
+   [tarayo.mail.session :as sut])
+  (:import
+   javax.mail.Session))
 
 (t/deftest make-session-test
   (let [sess (sut/make-session {:host "localhost" :port 25})]

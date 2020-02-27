@@ -1,8 +1,12 @@
 (ns tarayo.mail.mime.multipart.body-test
-  (:require [clojure.java.io :as io]
-            [clojure.test :as t]
-            [tarayo.mail.mime.multipart.body :as sut])
-  (:import [javax.mail.internet MimeBodyPart MimeUtility]))
+  (:require
+   [clojure.java.io :as io]
+   [clojure.test :as t]
+   [tarayo.mail.mime.multipart.body :as sut])
+  (:import
+   (javax.mail.internet
+    MimeBodyPart
+    MimeUtility)))
 
 (t/deftest make-bodypart-text-html-test
   (t/testing "string type"

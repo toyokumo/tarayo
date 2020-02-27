@@ -1,12 +1,15 @@
 (ns tarayo.core
-  (:require [tarayo.mail.mime :as mime]
-            [tarayo.mail.session :as session]
-            [tarayo.mail.transport :as transport])
-  (:import javax.mail.Transport))
+  (:require
+   [tarayo.mail.mime :as mime]
+   [tarayo.mail.session :as session]
+   [tarayo.mail.transport :as transport])
+  (:import
+   javax.mail.Transport))
 
 (defprotocol ISMTPConnection
   "TODO"
-  (send! [this message]
+  (send!
+    [this message]
     "Send a message.
 
   message => Map
@@ -21,29 +24,42 @@
                   `tarayo.mail.mime.id/get-random` is useful.
     :content-type TODO
     :content      TODO")
-  (connected? [this] "Return true if this connection is open.")
-  (close [this] "Close this connection."))
 
-(defrecord SMTPConnection [session transport]
+  (connected?
+    [this]
+    "Return true if this connection is open.")
+
+  (close
+    [this]
+    "Close this connection."))
+
+(defrecord SMTPConnection
+  [session transport]
+
   ISMTPConnection
-  (send! [this message]
+  (send!
+    [this message]
     (->> message
          (mime/make-message (:session this))
          (transport/send! (:transport this))))
 
-  (connected? [this]
+  (connected?
+    [this]
     (.isConnected ^Transport (:transport this)))
 
-  (close [this]
+  (close
+    [this]
     (.close ^Transport (:transport this))))
 
-(defn- get-protocol [smtp-server]
+(defn- get-protocol
+  [smtp-server]
   ;; c.f. https://jakarta.ee/specifications/mail/1.6/apidocs/com/sun/mail/smtp/package-summary.html
   (if (contains? smtp-server :ssl.enable)
     "smtps"
     "smtp"))
 
-(defn- get-defaults [{:keys [user] :as smtp-server}]
+(defn- get-defaults
+  [{:keys [user] :as smtp-server}]
   {:host "localhost"
    :port (cond
            (contains? smtp-server :ssl.enable) 465

@@ -1,11 +1,14 @@
 (ns tarayo.core-test
-  (:require [clojure.test :as t]
-            [shrubbery.core :as shrubbery]
-            [tarayo.core :as sut]
-            [tarayo.mail.transport :as transport]
-            [tarayo.test-helper :as h])
-  (:import com.sun.mail.smtp.SMTPTransport
-           javax.mail.Session))
+  (:require
+   [clojure.test :as t]
+   [shrubbery.core :as shrubbery]
+   [tarayo.core :as sut]
+   [tarayo.mail.transport :as transport]
+   [tarayo.test-helper :as h])
+  (:import
+   (com.sun.mail.smtp
+    SMTPTransport)
+   javax.mail.Session))
 
 (t/deftest connect-and-send!-test
   (h/with-test-smtp-server [srv port]
