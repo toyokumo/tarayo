@@ -4,7 +4,7 @@
   (:import javax.mail.Session))
 
 (t/deftest make-session-test
-  (let [sess (sut/make-session {:host "localhost" :port 25 :protocol "smtp"})]
+  (let [sess (sut/make-session {:host "localhost" :port 25})]
     (t/is (instance? Session sess))
     (t/is (= {"mail.smtp.host" "localhost"
               "mail.smtp.port" 25
@@ -14,8 +14,7 @@
     (t/is (not (.getDebug sess)))))
 
 (t/deftest make-session-with-debug-test
-  (let [sess (sut/make-session {:host "localhost" :port 25
-                                :protocol "smtp" :debug true})]
+  (let [sess (sut/make-session {:host "localhost" :port 25 :debug true})]
     (t/is (instance? Session sess))
     (t/is (= {"mail.smtp.host" "localhost"
               "mail.smtp.port" 25
@@ -26,7 +25,7 @@
 
 (t/deftest make-session-with-tls-test
   (let [sess (sut/make-session {:host "localhost" :port 25
-                                :protocol "smtp" :tls true})
+                                :starttls.enable true})
         props (.getProperties sess)]
     (t/is (instance? Session sess))
     (t/is (every? #(= "true" (get props %))

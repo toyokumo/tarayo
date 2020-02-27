@@ -16,8 +16,7 @@
 
 (defn- extract-smtp-server-kvs [smtp-server]
    (-> smtp-server
-       (dissoc :debug :password :protocol :ssl)
-       (set/rename-keys {:tls :starttls.enable})
+       (dissoc :debug :password)
        transform))
 
 (defn- session-properties [smtp-server]

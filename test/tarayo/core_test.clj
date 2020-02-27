@@ -36,7 +36,8 @@
         (t/is (= "smtp" (.getProtocol url-name)))))
 
     (t/testing "ssl"
-      (let [server {:host "example.com" :ssl true}
+      (let [server {:host "example.com"
+                    :ssl.enable true}
             {:keys [^Session session ^SMTPTransport transport]} (sut/connect server)
             props (.getProperties session)
             url-name (.getURLName transport)]
@@ -48,7 +49,7 @@
         (t/is (= "smtps" (.getProtocol url-name)))))
 
     (t/testing "tls"
-      (let [server {:tls true}
+      (let [server {:starttls.enable true}
             {:keys [^Session session ^SMTPTransport transport]} (sut/connect server)
             props (.getProperties session)
             url-name (.getURLName transport)]
