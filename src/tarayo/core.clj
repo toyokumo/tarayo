@@ -7,23 +7,38 @@
    javax.mail.Transport))
 
 (defprotocol ISMTPConnection
-  "TODO"
   (send!
     [this message]
     "Send a message.
 
-  message => Map
-    `:from`, `:to`, `:subject` and `:body` are required.
-    `:content-type`, `:multipart` and `:message-id-fn` are optional.
+  `message` is a map containing following keys.
+    * `:from`, `:to`, `:subject` and `:body` are REQUIRED.
+    * `:content-type`, `:multipart` and `:message-id-fn` are OPTIONAL.
 
-  :message-id-fn => Function to generate custom Message-ID. No arguments are passed.
+  ## Content-type
+  `:content-type`  is used when `:body` is a String. (Default: \"text/plain\")
 
-  body => Content string or list of multipart maps
-  multipart map => map
-    :id           A Content-ID within multiparts. (OPTIONAL)
-                  `tarayo.mail.mime.id/get-random` is useful.
-    :content-type TODO
-    :content      TODO")
+  ## Multipart
+  `:multipart` is a String to specify multipart type. (Default: \"mixed\")
+  \"mixed\" and \"alternative\" are allowed.
+
+  ## Body
+  `:body` should be one of String or map list.
+  String body will be handled as \"text message\".
+  When you'd like to use multipart, you should specify body as map list.
+
+  Map formatted body should contain following keys.
+    * `:content` is REQUIRED.
+    * `:content-type` and `:id` is OPTIONAL.
+
+  String `:content` will be handled as \"text message\" while others are handled as \"attachment file\".
+  If you don't specify `:content-type`, tarayo will detect it using Apache Tika automatically.
+
+  Containing `:id` will be handled as \"inline attachment file\".
+
+  ## Message-id-fn
+  `:message-id-fn` is a function to generate custom Message-ID.
+  No arguments are passed.")
 
   (connected?
     [this]
@@ -65,15 +80,15 @@
   "Connect to the specified SMTP server.
   If the connection is successful, an open `SMTPConnection` is returned.
 
-  smtp-server: A map (kebab-case is allowed)
-    :host
-    :port
-    :user
-    :password
-    :ssl.enable
-    :starttls.enable
+  `smtp-server` is a map containing following keys. (kebab-case is allowed)
+    * :host
+    * :port
+    * :user
+    * :password
+    * :ssl.enable
+    * :starttls.enable
 
-  https://jakarta.ee/specifications/mail/1.6/apidocs/com/sun/mail/smtp/package-summary.html"
+  For more information, please see https://jakarta.ee/specifications/mail/1.6/apidocs/com/sun/mail/smtp/package-summary.html"
   ([] (connect {}))
   ([smtp-server]
    (let [smtp-server (merge (get-defaults smtp-server)
