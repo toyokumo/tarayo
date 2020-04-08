@@ -1,14 +1,20 @@
 (ns tarayo.core-test
   (:require
+   [clojure.java.io :as io]
    [clojure.test :as t]
    [shrubbery.core :as shrubbery]
    [tarayo.core :as sut]
    [tarayo.mail.transport :as transport]
-   [tarayo.test-helper :as h])
+   [tarayo.test-helper :as h]
+   [testdoc.core])
   (:import
    (com.sun.mail.smtp
     SMTPTransport)
    javax.mail.Session))
+
+(t/deftest README-test
+  (with-redefs [transport/make-transport (constantly (h/test-transport))]
+    (t/is (testdoc (slurp (io/file "README.adoc"))))))
 
 (t/deftest connect-and-send!-test
   (h/with-test-smtp-server [srv port]

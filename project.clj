@@ -15,6 +15,7 @@
   :profiles
   {:dev {:dependencies [[org.clojure/clojure "1.9.0"]
                         [com.github.kirviq/dumbster "1.7.1"]
+                        [testdoc "1.1.0"]
 
                         ;; for benchmark
                         [criterium "0.4.5"]
