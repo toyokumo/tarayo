@@ -1,4 +1,5 @@
 {
  :linters {:unresolved-symbol
-           {:exclude [(tarayo.test-helper/with-test-smtp-server [srv port])]}}
+           {:exclude [(tarayo.test-helper/with-test-smtp-server [srv port])
+                      (clojure.test/is [testdoc])]}}
  }

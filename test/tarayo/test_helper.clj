@@ -61,7 +61,8 @@
     (tarayo-user-agent?  (first x))
     (some?  (re-seq #"^tarayo/.+$" x))))
 
-(defn ^SMTPTransport test-transport []
+(defn ^SMTPTransport test-transport
+  []
   (proxy [SMTPTransport] [(session/make-session) (javax.mail.URLName. "localhost")]
     (connect
       ([] true)
