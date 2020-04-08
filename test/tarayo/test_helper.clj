@@ -4,7 +4,9 @@
   (:import
    (com.dumbster.smtp
     SimpleSmtpServer
-    SmtpMessage)))
+    SmtpMessage)
+   (com.sun.mail.smtp
+    SMTPTransport)))
 
 (defrecord TestConnection
   [session transport]
@@ -58,3 +60,14 @@
   (if (sequential? x)
     (tarayo-user-agent?  (first x))
     (some?  (re-seq #"^tarayo/.+$" x))))
+
+(defn ^SMTPTransport test-transport []
+  (proxy [SMTPTransport] [(session/make-session) (javax.mail.URLName. "localhost")]
+    (connect
+      ([] true)
+      ([_ _] true)
+      ([_ _ _] true)
+      ([_ _ _ _] true))
+    (getLastReturnCode [] 250)
+    (getLastServerResponse [] "250 OK\n")
+    (sendMessage [msg addrs] {:message msg :addresses addrs})))
