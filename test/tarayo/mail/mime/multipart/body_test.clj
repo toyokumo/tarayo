@@ -55,6 +55,15 @@
       (t/is (instance? MimeBodyPart bp))
       (t/is (= ["text/x-clojure"] (seq (.getHeader bp "Content-Type"))))
       (t/is (= "project.clj" (.getFileName bp)))
+      (t/is (= "attachment" (.getDisposition bp)))))
+
+  (t/testing "overwriting attachment filename"
+    (let [part {:content (io/file "project.clj")
+                :filename "overwrite.clj"}
+          bp (sut/make-bodypart part "UTF-8")]
+      (t/is (instance? MimeBodyPart bp))
+      (t/is (= ["text/x-clojure"] (seq (.getHeader bp "Content-Type"))))
+      (t/is (= "overwrite.clj" (.getFileName bp)))
       (t/is (= "attachment" (.getDisposition bp))))))
 
 (t/deftest make-bodypart-with-content-id-test
