@@ -4,6 +4,7 @@
    [clojure.test :as t]
    [tarayo.mail.mime.multipart.body :as sut])
   (:import
+   java.nio.file.Files
    (javax.mail.internet
     MimeBodyPart
     MimeUtility)))
@@ -86,3 +87,38 @@
         bp (sut/make-bodypart part "UTF-8")]
     (t/is (instance? MimeBodyPart bp))
     (t/is (= ["base64"] (seq (.getHeader bp "Content-Transfer-Encoding"))))))
+
+(t/deftest make-bodypart-with-bytes-attachment-test
+  (t/testing "positive"
+    (let [file (io/file "project.clj")
+          part {:content (Files/readAllBytes (.toPath file))
+                :content-type "text/x-clojure"
+                :filename "foo.clj"}
+          bp (sut/make-bodypart part "UTF-8")]
+      (t/is (instance? MimeBodyPart bp))
+      (t/is (= ["text/x-clojure"] (seq (.getHeader bp "Content-Type"))))
+      (t/is (= "foo.clj" (.getFileName bp)))
+      (t/is (= "attachment" (.getDisposition bp)))))
+
+  (t/testing "no content-type"
+    (t/is (thrown? AssertionError
+            (sut/make-bodypart {:content (.getBytes "foo")
+                                :filename "foo.clj"}
+                               "UTF-8"))))
+  (t/testing "empty content-type"
+    (t/is (thrown? AssertionError
+            (sut/make-bodypart {:content (.getBytes "foo")
+                                :content-type ""
+                                :filename "foo.clj"}
+                               "UTF-8"))))
+  (t/testing "no filename"
+    (t/is (thrown? AssertionError
+            (sut/make-bodypart {:content (.getBytes "foo")
+                                :content-type "text/plain"}
+                               "UTF-8"))))
+  (t/testing "empty filename"
+    (t/is (thrown? AssertionError
+            (sut/make-bodypart {:content (.getBytes "foo")
+                                :content-type "text/plain"
+                                :filename ""}
+                               "UTF-8")))))
