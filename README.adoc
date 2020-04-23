@@ -47,8 +47,8 @@ link:https://clojars.org/toyokumo/tarayo[image:https://img.shields.io/clojars/v/
 
 [source,clojure]
 ----
-(ns foo.core
-  (:require [tarayo.core :as tarayo]))
+=> (require '[tarayo.core :as tarayo])
+nil
 ----
 
 === Connection SMTP server
@@ -58,9 +58,8 @@ You need to call `tarayo.core/close` function before quitting, or use https://cl
 
 [source,clojure]
 ----
-(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-  ;; send mails
-  )
+=> (type (tarayo/connect {:host "localhost" :port 25}))
+tarayo.core.SMTPConnection
 ----
 
 Other examples are follows:
@@ -78,72 +77,79 @@ Connection with user authentication::
 
 [source,clojure]
 ----
-(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-  (tarayo/send! conn {:from "alice@example.com"
-                      :to "bob@example.com"
-                      :subject "hello"
-                      :body "world"}))
+=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+=>   (tarayo/send! conn {:from "alice@example.com"
+=>                       :to "bob@example.com"
+=>                       :subject "hello"
+=>                       :body "world"}))
+{:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==== HTML mail
 
 [source,clojure]
 ----
-(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-  (tarayo/send! conn {:from "alice@example.com"
-                      :to "bob@example.com"
-                      :subject "hello"
-                      :content-type "text/html"
-                      :body "<h1>world</h1>"}))
+=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+=>   (tarayo/send! conn {:from "alice@example.com"
+=>                       :to "bob@example.com"
+=>                       :subject "hello"
+=>                       :content-type "text/html"
+=>                       :body "<h1>world</h1>"}))
+{:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==== Attachment file
 
 [source,clojure]
 ----
-(require '[clojure.java.io :as io])
+=> (require '[clojure.java.io :as io])
+nil
 
-(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-  (tarayo/send! conn {:from "alice@example.com"
-                      :to "bob@example.com"
-                      :subject "hello"
-                      ;; Default multipart type is "mixed"
-                      :body [;; string content will be handled as "text message" while others are handled as "attachment file"
-                             {:content "world"}
-                             ;; If you don't specify `:content-type`, tarayo will detect it using Apache Tika automatically.
-                             {:content (io/file "/file")}
-                             ;; Of cource, you can specify `:content-type` manually.
-                             {:content (io/file "/image.png") :content-type "image/png"}]}))
+=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+=>   (tarayo/send! conn {:from "alice@example.com"
+=>                       :to "bob@example.com"
+=>                       :subject "hello"
+=>                       ;; Default multipart type is "mixed"
+=>                       :body [;; string content will be handled as "text message" while others are handled as "attachment file"
+=>                              {:content "world"}
+=>                              ;; If you don't specify `:content-type`, tarayo will detect it using Apache Tika automatically.
+=>                              {:content (io/file "test/resources/file")}
+=>                              ;; Of cource, you can specify `:content-type` manually.
+=>                              {:content (io/file "test/resources/image.png") :content-type "image/png"}]}))
+{:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==== Multipart/alternative
 
 [source,clojure]
 ----
-(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-  (tarayo/send! conn {:from "alice@example.com"
-                      :to "bob@example.com"
-                      :subject "hello"
-                      :multipart "alternative"
-                      :body [{:content-type "text/plain" :content "world"}
-                             {:content-type "text/html" :content "<h1>wold</h1>"}]}))
+=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+=>   (tarayo/send! conn {:from "alice@example.com"
+=>                       :to "bob@example.com"
+=>                       :subject "hello"
+=>                       :multipart "alternative"
+=>                       :body [{:content-type "text/plain" :content "world"}
+=>                              {:content-type "text/html" :content "<h1>wold</h1>"}]}))
+{:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==== Inline image
 
 [source,clojure]
 ----
-(require '[clojure.java.io :as io]
-         '[tarayo.mail.mime.id :as mime-id])
+=> (require '[clojure.java.io :as io]
+=>          '[tarayo.mail.mime.id :as mime-id])
+nil
 
-(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-  (let [content-id (mime-id/get-random)]
-    (tarayo/send! conn {:from "alice@example.com"
-                        :to "bob@example.com"
-                        :subject "hello"
-                        :body [{:content (str "<img src=\"cid:" content-id "\" /> world") :content-type "text/html}
-                               ;; containing id will be handled as "inline attachment file"
-                               {:content (io/file "/image.png") :id content-id}]})))
+=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+=>   (let [content-id (mime-id/get-random)]
+=>     (tarayo/send! conn {:from "alice@example.com"
+=>                         :to "bob@example.com"
+=>                         :subject "hello"
+=>                         :body [{:content (str "<img src=\"cid:" content-id "\" /> world") :content-type "text/html"}
+=>                                ;; containing id will be handled as "inline attachment file"
+=>                                {:content (io/file "test/resources/image.png") :id content-id}]})))
+{:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==  Stubbing
@@ -152,14 +158,16 @@ Example using https://github.com/bguthrie/shrubbery[shrubbery].
 
 [source,clojure]
 ----
-(require '[shrubbery.core :as shrubbery])
+=> (require '[shrubbery.core :as shrubbery])
+nil
 
-(let [conn (shrubbery/stub
-            tarayo/ISMTPConnection
-            {:send! "ok"
-             :connected? true
-             :close true})]
-  (sut/send! conn "foo"))
+=> (let [conn (shrubbery/stub
+=>             tarayo/ISMTPConnection
+=>             {:send! "ok"
+=>              :connected? true
+=>              :close true})]
+=>   (tarayo/send! conn "foo"))
+"ok"
 ----
 
 == License
