@@ -115,7 +115,11 @@ nil
 =>                              ;; If you don't specify `:content-type`, tarayo will detect it using Apache Tika automatically.
 =>                              {:content (io/file "test/resources/file")}
 =>                              ;; Of cource, you can specify `:content-type` manually.
-=>                              {:content (io/file "test/resources/image.png") :content-type "image/png"}]}))
+=>                              {:content (io/file "test/resources/image.png") :content-type "image/png"}
+=>                              ;; You could also use byte array for `:content`.
+=>                              {:content (java.nio.file.Files/readAllBytes (.toPath (io/file "test/resources/image.png")))
+=>                               ;; In this case, `:content-type` and `:filename` must be specified.
+=>                               :content-type "image/png" :filename "new.png"}]}))
 {:result :success, :code 250, :message "250 OK\n"}
 ----
 

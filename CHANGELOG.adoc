@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This change log follows the conventions of http://keepachangelog.com/[keepachangelog.com].
 
 == Unreleased (dev)
+
+=== Added
+* https://github.com/liquidz/tarayo/issues/5[#5] Added support byte array as attachment file.
+
 === Fixed
 
 * https://github.com/liquidz/tarayo/issues/1[#1] Fix to construct default User-Agent correctly.
