@@ -50,10 +50,6 @@ jobs:
             tar -xf cljstyle_0.12.1_linux.tar.gz
             ./cljstyle check
 
-
-
-
-
 workflows:
   version: 2
   build_and_test:

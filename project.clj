@@ -6,11 +6,11 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
 
   :dependencies [[camel-snake-kebab "0.4.1"]
-                 [com.sun.mail/jakarta.mail "1.6.4"]
+                 [com.sun.mail/jakarta.mail "1.6.5"]
                  [commons-codec "1.14"]
-                 [jakarta.mail/jakarta.mail-api "1.6.4"]
-                 [nano-id "0.10.0"]
-                 [org.apache.tika/tika-core "1.23"]]
+                 [jakarta.mail/jakarta.mail-api "1.6.5"]
+                 [nano-id "1.0.0"]
+                 [org.apache.tika/tika-core "1.24.1"]]
 
   :profiles
   {:1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
@@ -19,13 +19,15 @@
 
    :dev [:1.10
          {:dependencies [[com.github.kirviq/dumbster "1.7.1"]
-                         [testdoc "1.1.0"]
+                         [testdoc "1.2.0"]
 
                          ;; for benchmark
                          [criterium "0.4.5"]
                          [com.draines/postal "2.0.3"]
                          ;; for stubbing
-                         [com.gearswithingears/shrubbery "0.4.1"]]
+                         [com.gearswithingears/shrubbery "0.4.1"]
+                         ;; for checking outdated dependencies
+                         [antq "RELEASE"]]
           :source-paths ["dev/src" "src"]
           :resource-paths ["dev/resources"]
           :global-vars {*warn-on-reflection* true}}]
@@ -37,7 +39,8 @@
   :aliases
   {"test-all" ["with-profile" "1.8,dev:1.9,dev:1.10,dev" "test"]
    "test-integration" ["with-profile" "1.9,it:1.10,it" "test"]
-   "benchmark" ["run" "-m" "benchmark"]}
+   "benchmark" ["run" "-m" "benchmark"]
+   "antq" ["run" "-m" "antq.core"]}
 
   :plugins [[lein-cloverage "1.1.2"]]
   :cloverage {:ns-exclude-regex [#"benchmark"]}

@@ -1,4 +1,4 @@
-.PHONY: repl lint install test clean
+.PHONY: repl lint install test outdated clean
 
 PWD=$(shell pwd)
 
@@ -14,6 +14,9 @@ install:
 
 test:
 	lein test-all
+
+outdated:
+	lein antq
 
 clean:
 	lein clean

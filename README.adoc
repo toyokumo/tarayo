@@ -25,8 +25,6 @@ SMTP client library for Clojure. That's it.
 </p>
 +++
 
-WARNING: This project is under development.
-
 == Why tarayo?
 
 Tarayo is heavily inspired by https://github.com/drewr/postal[drewr/postal].
@@ -154,6 +152,37 @@ nil
 =>                                ;; containing id will be handled as "inline attachment file"
 =>                                {:content (io/file "test/resources/image.png") :id content-id}]})))
 {:result :success, :code 250, :message "250 OK\n"}
+----
+
+=== Use for Gmail API
+
+Like above, tarayo only supports SMTP, but you can also use for generating parameter to call Gmail API.
+
+https://developers.google.com/gmail/api/v1/reference/users/messages/send
+
+> The entire email message in an RFC 2822 formatted and base64url encoded string. Returned in messages.get and drafts.get responses when the format=RAW parameter is supplied.
+
+To generate this parameter, you can use `tarayo.mail.mime`.
+
+[source,clojure]
+----
+=> (require '[tarayo.mail.mime :as mime]
+=>          '[tarayo.mail.session :as session])
+nil
+
+=> (defn- mime-message->raw-string [mime-msg]
+=>   (let [buf (java.io.ByteArrayOutputStream.)]
+=>     (.writeTo mime-msg buf)
+=>     (org.apache.commons.codec.binary.Base64/encodeBase64URLSafeString (.toByteArray buf))))
+any?
+
+=> (let [msg {:from "alice@example.com"
+=>            :to "bob@example.com"
+=>            :subject "hello"
+=>            :body "world"}
+=>       mime-msg (mime/make-message (session/make-session) msg)]
+=>   (mime-message->raw-string mime-msg))
+string?
 ----
 
 ==  Stubbing
