@@ -16,7 +16,7 @@ test:
 	lein test-all
 
 outdated:
-	lein outdated
+	lein antq
 
 clean:
 	lein clean

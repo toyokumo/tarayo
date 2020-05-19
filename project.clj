@@ -40,7 +40,7 @@
   {"test-all" ["with-profile" "1.8,dev:1.9,dev:1.10,dev" "test"]
    "test-integration" ["with-profile" "1.9,it:1.10,it" "test"]
    "benchmark" ["run" "-m" "benchmark"]
-   "outdated" ["run" "-m" "antq.core"]}
+   "antq" ["run" "-m" "antq.core"]}
 
   :plugins [[lein-cloverage "1.1.2"]]
   :cloverage {:ns-exclude-regex [#"benchmark"]}
