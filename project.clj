@@ -20,14 +20,8 @@
    :dev [:1.10
          {:dependencies [[com.github.kirviq/dumbster "1.7.1"]
                          [testdoc "1.2.0"]
-
-                         ;; for benchmark
-                         [criterium "0.4.5"]
-                         [com.draines/postal "2.0.3"]
                          ;; for stubbing
-                         [com.gearswithingears/shrubbery "0.4.1"]
-                         ;; for checking outdated dependencies
-                         [antq "RELEASE"]]
+                         [com.gearswithingears/shrubbery "0.4.1"]]
           :source-paths ["dev/src" "src"]
           :resource-paths ["dev/resources"]
           :global-vars {*warn-on-reflection* true}}]
@@ -35,12 +29,17 @@
    :it [:dev {:dependencies [[org.clojure/data.json "1.0.0"]
                              [camel-snake-kebab "0.4.1"]
                              [http-kit "2.3.0"]]
-              :test-paths ["integration/test"]}]}
+              :test-paths ["integration/test"]}]
+
+   :benchmark {:dependencies [[criterium "0.4.5"]
+                              [com.draines/postal "2.0.3"]]}
+
+   :antq {:dependencies [[antq "RELEASE"]]}}
   :aliases
   {"test-all" ["with-profile" "1.8,dev:1.9,dev:1.10,dev" "test"]
    "test-integration" ["with-profile" "1.9,it:1.10,it" "test"]
-   "benchmark" ["run" "-m" "benchmark"]
-   "antq" ["run" "-m" "antq.core"]}
+   "benchmark" ["with-profile" "+benchmark" "run" "-m" "benchmark"]
+   "antq" ["with-profile" "+antq" "run" "-m" "antq.core"]}
 
   :plugins [[lein-cloverage "1.1.2"]]
   :cloverage {:ns-exclude-regex [#"benchmark"]}
