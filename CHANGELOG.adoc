@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+== 0.2.1
+=== Fixed
+* Unnecessary libraries on using were excluded to a separate profiles.
+
 == 0.2.0
 === Added
 * https://github.com/liquidz/tarayo/issues/5[#5] Added support byte array as attachment file.
