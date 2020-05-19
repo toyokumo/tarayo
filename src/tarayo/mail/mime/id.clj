@@ -1,11 +1,13 @@
 (ns tarayo.mail.mime.id
   (:require
-   [nano-id.custom :as nano-id]))
+   [nano-id.core :as nano-id]))
 
 (def ^:private generate-id
-  (nano-id/generate "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"))
+  (nano-id/custom
+   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+   16))
 
 (defn ^String get-random
   []
   (let [hostname (.getHostName (java.net.InetAddress/getLocalHost))]
-    (format "<%s.%s@%s>" (generate-id 16) (.getTime (java.util.Date.)) (str "tarayo." hostname))))
+    (format "<%s.%s@%s>" (generate-id) (.getTime (java.util.Date.)) (str "tarayo." hostname))))
