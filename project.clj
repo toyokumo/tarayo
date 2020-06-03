@@ -19,7 +19,7 @@
 
    :dev [:1.10
          {:dependencies [[com.github.kirviq/dumbster "1.7.1"]
-                         [testdoc "1.2.0"]
+                         [testdoc "1.3.0"]
                          ;; for stubbing
                          [com.gearswithingears/shrubbery "0.4.1"]]
           :source-paths ["dev/src" "src"]
