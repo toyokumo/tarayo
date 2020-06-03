@@ -42,8 +42,8 @@ link:https://clojars.org/toyokumo/tarayo[image:https://img.shields.io/clojars/v/
 
 [source,clojure]
 ----
-=> (require '[tarayo.core :as tarayo])
-nil
+(require '[tarayo.core :as tarayo])
+;; => nil
 ----
 
 === Connection SMTP server
@@ -53,8 +53,8 @@ You need to call `tarayo.core/close` function before quitting, or use https://cl
 
 [source,clojure]
 ----
-=> (type (tarayo/connect {:host "localhost" :port 25}))
-tarayo.core.SMTPConnection
+(type (tarayo/connect {:host "localhost" :port 25}))
+;; => tarayo.core.SMTPConnection
 ----
 
 Other examples are follows:
@@ -72,83 +72,83 @@ Connection with user authentication::
 
 [source,clojure]
 ----
-=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-=>   (tarayo/send! conn {:from "alice@example.com"
-=>                       :to "bob@example.com"
-=>                       :subject "hello"
-=>                       :body "world"}))
-{:result :success, :code 250, :message "250 OK\n"}
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (tarayo/send! conn {:from "alice@example.com"
+                      :to "bob@example.com"
+                      :subject "hello"
+                      :body "world"}))
+;; => {:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==== HTML mail
 
 [source,clojure]
 ----
-=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-=>   (tarayo/send! conn {:from "alice@example.com"
-=>                       :to "bob@example.com"
-=>                       :subject "hello"
-=>                       :content-type "text/html"
-=>                       :body "<h1>world</h1>"}))
-{:result :success, :code 250, :message "250 OK\n"}
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (tarayo/send! conn {:from "alice@example.com"
+                      :to "bob@example.com"
+                      :subject "hello"
+                      :content-type "text/html"
+                      :body "<h1>world</h1>"}))
+;; => {:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==== Attachment file
 
 [source,clojure]
 ----
-=> (require '[clojure.java.io :as io])
-nil
+(require '[clojure.java.io :as io])
+;; => nil
 
-=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-=>   (tarayo/send! conn {:from "alice@example.com"
-=>                       :to "bob@example.com"
-=>                       :subject "hello"
-=>                       ;; Default multipart type is "mixed"
-=>                       :body [;; string content will be handled as "text message" while others are handled as "attachment file"
-=>                              {:content "world"}
-=>                              ;; If you don't specify `:content-type`, tarayo will detect it using Apache Tika automatically.
-=>                              {:content (io/file "test/resources/file")}
-=>                              ;; Of cource, you can specify `:content-type` manually.
-=>                              {:content (io/file "test/resources/image.png") :content-type "image/png"}
-=>                              ;; You could also use byte array for `:content`.
-=>                              {:content (java.nio.file.Files/readAllBytes (.toPath (io/file "test/resources/image.png")))
-=>                               ;; In this case, `:content-type` and `:filename` must be specified.
-=>                               :content-type "image/png" :filename "new.png"}]}))
-{:result :success, :code 250, :message "250 OK\n"}
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (tarayo/send! conn {:from "alice@example.com"
+                      :to "bob@example.com"
+                      :subject "hello"
+                      ;; Default multipart type is "mixed"
+                      :body [;; string content will be handled as "text message" while others are handled as "attachment file"
+                             {:content "world"}
+                             ;; If you don't specify `:content-type`, tarayo will detect it using Apache Tika automatically.
+                             {:content (io/file "test/resources/file")}
+                             ;; Of cource, you can specify `:content-type` manually.
+                             {:content (io/file "test/resources/image.png") :content-type "image/png"}
+                             ;; You could also use byte array for `:content`.
+                             {:content (java.nio.file.Files/readAllBytes (.toPath (io/file "test/resources/image.png")))
+                              ;; In this case, `:content-type` and `:filename` must be specified.
+                              :content-type "image/png" :filename "new.png"}]}))
+;; => {:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==== Multipart/alternative
 
 [source,clojure]
 ----
-=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-=>   (tarayo/send! conn {:from "alice@example.com"
-=>                       :to "bob@example.com"
-=>                       :subject "hello"
-=>                       :multipart "alternative"
-=>                       :body [{:content-type "text/plain" :content "world"}
-=>                              {:content-type "text/html" :content "<h1>wold</h1>"}]}))
-{:result :success, :code 250, :message "250 OK\n"}
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (tarayo/send! conn {:from "alice@example.com"
+                      :to "bob@example.com"
+                      :subject "hello"
+                      :multipart "alternative"
+                      :body [{:content-type "text/plain" :content "world"}
+                             {:content-type "text/html" :content "<h1>wold</h1>"}]}))
+;; => {:result :success, :code 250, :message "250 OK\n"}
 ----
 
 ==== Inline image
 
 [source,clojure]
 ----
-=> (require '[clojure.java.io :as io]
-=>          '[tarayo.mail.mime.id :as mime-id])
-nil
+(require '[clojure.java.io :as io]
+         '[tarayo.mail.mime.id :as mime-id])
+;; => nil
 
-=> (with-open [conn (tarayo/connect {:host "localhost" :port 25})]
-=>   (let [content-id (mime-id/get-random)]
-=>     (tarayo/send! conn {:from "alice@example.com"
-=>                         :to "bob@example.com"
-=>                         :subject "hello"
-=>                         :body [{:content (str "<img src=\"cid:" content-id "\" /> world") :content-type "text/html"}
-=>                                ;; containing id will be handled as "inline attachment file"
-=>                                {:content (io/file "test/resources/image.png") :id content-id}]})))
-{:result :success, :code 250, :message "250 OK\n"}
+(with-open [conn (tarayo/connect {:host "localhost" :port 25})]
+  (let [content-id (mime-id/get-random)]
+    (tarayo/send! conn {:from "alice@example.com"
+                        :to "bob@example.com"
+                        :subject "hello"
+                        :body [{:content (str "<img src=\"cid:" content-id "\" /> world") :content-type "text/html"}
+                               ;; containing id will be handled as "inline attachment file"
+                               {:content (io/file "test/resources/image.png") :id content-id}]})))
+;; => {:result :success, :code 250, :message "250 OK\n"}
 ----
 
 === Use for Gmail API
@@ -163,23 +163,23 @@ To generate this parameter, you can use `tarayo.mail.mime`.
 
 [source,clojure]
 ----
-=> (require '[tarayo.mail.mime :as mime]
-=>          '[tarayo.mail.session :as session])
-nil
+(require '[tarayo.mail.mime :as mime]
+         '[tarayo.mail.session :as session])
+;; => nil
 
-=> (defn- mime-message->raw-string [mime-msg]
-=>   (let [buf (java.io.ByteArrayOutputStream.)]
-=>     (.writeTo mime-msg buf)
-=>     (org.apache.commons.codec.binary.Base64/encodeBase64URLSafeString (.toByteArray buf))))
-any?
+(defn- mime-message->raw-string [mime-msg]
+  (let [buf (java.io.ByteArrayOutputStream.)]
+    (.writeTo mime-msg buf)
+    (org.apache.commons.codec.binary.Base64/encodeBase64URLSafeString (.toByteArray buf))))
+;; => any?
 
-=> (let [msg {:from "alice@example.com"
-=>            :to "bob@example.com"
-=>            :subject "hello"
-=>            :body "world"}
-=>       mime-msg (mime/make-message (session/make-session) msg)]
-=>   (mime-message->raw-string mime-msg))
-string?
+(let [msg {:from "alice@example.com"
+           :to "bob@example.com"
+           :subject "hello"
+           :body "world"}
+      mime-msg (mime/make-message (session/make-session) msg)]
+  (mime-message->raw-string mime-msg))
+;; => string?
 ----
 
 ==  Stubbing
@@ -188,16 +188,16 @@ Example using https://github.com/bguthrie/shrubbery[shrubbery].
 
 [source,clojure]
 ----
-=> (require '[shrubbery.core :as shrubbery])
-nil
+(require '[shrubbery.core :as shrubbery])
+;; => nil
 
-=> (let [conn (shrubbery/stub
-=>             tarayo/ISMTPConnection
-=>             {:send! "ok"
-=>              :connected? true
-=>              :close true})]
-=>   (tarayo/send! conn "foo"))
-"ok"
+(let [conn (shrubbery/stub
+            tarayo/ISMTPConnection
+            {:send! "ok"
+             :connected? true
+             :close true})]
+  (tarayo/send! conn "foo"))
+;; => "ok"
 ----
 
 == License
