@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+== 0.2.2
+=== Changed
+* Bump testdoc.
+
+=== Fixed
+* Fixed weird release in Leiningen 2.9.3.
+
 == 0.2.1
 === Fixed
 * Unnecessary libraries on using were excluded to a separate profiles.
