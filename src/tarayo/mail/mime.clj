@@ -21,7 +21,7 @@
 
 (defn ^MimeMessage make-message
   [^Session session message]
-  (let [{:keys [charset content-type cc bcc body multipart]} message
+  (let [{:keys [charset content-type reply-to cc bcc body multipart]} message
         charset (or charset constant/default-charset)
         content-type (or content-type constant/default-content-type)
         multipart (or multipart constant/default-multipart)]
@@ -33,6 +33,7 @@
       (message/add-headers (-> (apply dissoc message non-extra-headers)
                                (update :user-agent #(or % default-user-agent))
                                (set/rename-keys {:user-agent "User-Agent"})))
+      (cond-> reply-to (message/set-reply-to (address/make-addresses reply-to charset)))
       (cond-> cc (message/add-cc (address/make-addresses cc charset)))
       (cond-> bcc (message/add-bcc (address/make-addresses bcc charset)))
       (cond-> (string? body) (message/set-content body (format "%s; charset=%s" content-type charset))
