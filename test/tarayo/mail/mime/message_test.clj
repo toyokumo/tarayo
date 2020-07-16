@@ -38,6 +38,7 @@
       (sut/add-cc (addr/make-addresses ["cc@foo.com" "cc@bar.com"] "utf-8"))
       (sut/add-bcc (addr/make-addresses ["bcc@foo.com" "bcc@bar.com"] "utf-8"))
       (sut/set-from (addr/make-address "from@foo.com" "utf-8"))
+      (sut/set-reply-to (addr/make-addresses ["reply-to@foo.com" "reply-to@bar.com"] "utf-8"))
       (sut/set-subject "hello, world" "utf-8")
       (sut/set-sent-date (.getTime cal))
       (sut/add-headers {"Foo" "Bar" "Bar" "Baz"}))))
@@ -57,6 +58,11 @@
 (t/deftest set-from-test
   (let [msg (gen-test-message)]
     (t/is (= #{"from@foo.com"} (addrs->set (.getFrom msg))))))
+
+(t/deftest set-reply-to-test
+  (let [msg (gen-test-message)
+        reply-tos (addrs->set (.getReplyTo msg))]
+    (t/is (= #{"reply-to@foo.com" "reply-to@bar.com"} reply-tos))))
 
 (t/deftest set-subject-test
   (let [msg (gen-test-message)]
