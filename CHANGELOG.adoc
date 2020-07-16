@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+== 0.2.3
+=== Added
+* https://github.com/liquidz/tarayo/issues/9[#9] Added support to specify `reply-to`.
+
+=== Fixed
+* Fixed type hint for `tarayo.core/connect`.
+** `ClassCastException` could be thrown when using a dummy connection on testing so far.
+* Fixed some reflection warnings.
+
 == 0.2.2
 === Changed
 * Bump testdoc.
