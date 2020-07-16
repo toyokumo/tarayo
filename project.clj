@@ -17,19 +17,19 @@
    :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
    :1.10 {:dependencies [[org.clojure/clojure "1.10.1"]]}
 
-   :dev [:1.10
-         {:dependencies [[com.github.kirviq/dumbster "1.7.1"]
-                         [testdoc "1.3.0"]
-                         ;; for stubbing
-                         [com.gearswithingears/shrubbery "0.4.1"]]
-          :source-paths ["dev/src" "src"]
-          :resource-paths ["dev/resources"]
-          :global-vars {*warn-on-reflection* true}}]
+   :dev {:dependencies [[org.clojure/clojure "1.10.1"]
+                        [com.github.kirviq/dumbster "1.7.1"]
+                        [testdoc "1.4.0"]
+                        ;; for stubbing
+                        [com.gearswithingears/shrubbery "0.4.1"]]
+         :source-paths ["dev/src" "src"]
+         :resource-paths ["dev/resources"]
+         :global-vars {*warn-on-reflection* true}}
 
-   :it [:dev {:dependencies [[org.clojure/data.json "1.0.0"]
-                             [camel-snake-kebab "0.4.1"]
-                             [http-kit "2.3.0"]]
-              :test-paths ["integration/test"]}]
+   :it {:dependencies [[org.clojure/data.json "1.0.0"]
+                       [camel-snake-kebab "0.4.1"]
+                       [http-kit "2.3.0"]]
+        :test-paths ["integration/test"]}
 
    :benchmark {:dependencies [[criterium "0.4.5"]
                               [com.draines/postal "2.0.3"]]}
@@ -37,7 +37,7 @@
    :antq {:dependencies [[antq "RELEASE"]]}}
   :aliases
   {"test-all" ["with-profile" "1.8,dev:1.9,dev:1.10,dev" "test"]
-   "test-integration" ["with-profile" "1.9,it:1.10,it" "test"]
+   "test-integration" ["with-profile" "1.9,dev,it:1.10,dev,it" "test"]
    "benchmark" ["with-profile" "+benchmark" "run" "-m" "benchmark"]
    "antq" ["with-profile" "+antq" "run" "-m" "antq.core"]}
 
