@@ -75,7 +75,7 @@
            :else 25)
    :auth (some? user)})
 
-(defn ^SMTPConnection
+(defn ^tarayo.core.ISMTPConnection
   connect
   "Connect to the specified SMTP server.
   If the connection is successful, an open `SMTPConnection` is returned.
