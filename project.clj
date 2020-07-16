@@ -31,7 +31,7 @@
                        [http-kit "2.3.0"]]
         :test-paths ["integration/test"]}
 
-   :benchmark {:dependencies [[criterium "0.4.5"]
+   :benchmark {:dependencies [[criterium "0.4.6"]
                               [com.draines/postal "2.0.3"]]}
 
    :antq {:dependencies [[antq "RELEASE"]]}}
