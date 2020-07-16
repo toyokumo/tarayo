@@ -13,7 +13,7 @@
 
   `message` is a map containing following keys.
     * `:from`, `:to`, `:subject` and `:body` are REQUIRED.
-    * `:content-type`, `:multipart` and `:message-id-fn` are OPTIONAL.
+    * `reply-to`, `:content-type`, `:multipart` and `:message-id-fn` are OPTIONAL.
 
   ## Content-type
   `:content-type`  is used when `:body` is a String. (Default: \"text/plain\")
