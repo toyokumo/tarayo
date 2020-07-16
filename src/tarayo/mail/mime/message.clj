@@ -40,9 +40,14 @@
   (.addRecipients msg Message$RecipientType/BCC addresses))
 
 (defn set-from
-  [^MimeMessage msg ^InternetAddress
-   ^"[Ljavax.mail.internet.InternetAddress;" address]
+  [^MimeMessage msg
+   ^InternetAddress address]
   (.setFrom msg address))
+
+(defn set-reply-to
+  [^MimeMessage msg
+   ^"[Ljavax.mail.internet.InternetAddress;" addresses]
+  (.setReplyTo msg addresses))
 
 (defn set-subject
   [^MimeMessage msg ^String subject ^String charset]

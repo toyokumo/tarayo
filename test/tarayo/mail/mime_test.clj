@@ -33,6 +33,17 @@
       (t/is (= "alice" (.getAddress ^InternetAddress (first ccs))))
       (t/is (= "bob" (.getAddress ^InternetAddress (first bccs)))))))
 
+(t/deftest make-message-with-reply-to-test
+  (let [{:keys [session]} (h/test-connection)
+        opts {:from "foo" :to "bar" :subject "hello" :body "world" :charset "UTF-8"
+              :reply-to "charlie"}
+        msg (sut/make-message session opts)]
+    (t/is (instance? MimeMessage msg))
+
+    (let [reply-to (.getReplyTo msg)]
+      (t/is (= 1 (count reply-to)))
+      (t/is (= "charlie" (.getAddress ^InternetAddress (first reply-to)))))))
+
 (t/deftest make-message-with-custom-user-agent-test
   (let [{:keys [session]} (h/test-connection)
         opts {:from "foo" :to "bar" :subject "hello" :body "world" :charset "UTF-8"

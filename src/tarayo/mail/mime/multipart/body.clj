@@ -50,7 +50,7 @@
   [^URL url ^String charset]
   (-> (.getPath url)
       (.split separator)
-      last
+      ^String last
       (URLDecoder/decode charset)
       (MimeUtility/encodeText charset nil)))
 
