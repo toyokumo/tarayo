@@ -4,7 +4,7 @@
    [tarayo.mail.session :as session]
    [tarayo.mail.transport :as transport])
   (:import
-   javax.mail.Transport))
+   jakarta.mail.Transport))
 
 (defprotocol ISMTPConnection
   (send!

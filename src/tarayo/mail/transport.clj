@@ -2,8 +2,8 @@
   (:import
    (com.sun.mail.smtp
     SMTPTransport)
-   javax.mail.Session
-   (javax.mail.internet
+   jakarta.mail.Session
+   (jakarta.mail.internet
     MimeMessage)))
 
 (defn- ^String get-protocol

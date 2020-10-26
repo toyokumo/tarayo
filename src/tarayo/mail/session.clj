@@ -3,8 +3,8 @@
    [camel-snake-kebab.core :as csk]
    [tarayo.mail.constant :as constant])
   (:import
-   java.util.Properties
-   javax.mail.Session))
+   jakarta.mail.Session
+   java.util.Properties))
 
 (defn- transform
   [m]
@@ -31,7 +31,7 @@
     props))
 
 (defn ^Session make-session
-  "Create `javax.mail.Session` instance and return it."
+  "Create `jakarta.mail.Session` instance and return it."
   ([] (make-session {}))
   ([smtp-server]
    (let [props (session-properties smtp-server)]

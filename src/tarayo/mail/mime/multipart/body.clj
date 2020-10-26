@@ -5,14 +5,14 @@
    [tarayo.mail.constant :as constant]
    [tarayo.mail.mime.multipart.data-source :as data-source])
   (:import
+   jakarta.activation.DataHandler
+   (jakarta.mail.internet
+    MimeBodyPart
+    MimeUtility)
    (java.net
     MalformedURLException
     URL
     URLDecoder)
-   javax.activation.DataHandler
-   (javax.mail.internet
-    MimeBodyPart
-    MimeUtility)
    org.apache.tika.Tika))
 
 (def ^Tika mime-detector (Tika.))

@@ -2,7 +2,7 @@
   (:require
    [tarayo.mail.mime.multipart.body :as body])
   (:import
-   (javax.mail.internet
+   (jakarta.mail.internet
     MimeMultipart)))
 
 (defn- add-body-parts

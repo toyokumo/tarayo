@@ -6,7 +6,7 @@
    [tarayo.mail.mime.message :as message]
    [tarayo.test-helper :as h])
   (:import
-   (javax.mail.internet
+   (jakarta.mail.internet
     InternetAddress
     MimeMessage
     MimeMultipart)))

@@ -4,10 +4,10 @@
    [clojure.test :as t]
    [tarayo.mail.mime.multipart.body :as sut])
   (:import
-   java.nio.file.Files
-   (javax.mail.internet
+   (jakarta.mail.internet
     MimeBodyPart
-    MimeUtility)))
+    MimeUtility)
+   java.nio.file.Files))
 
 (t/deftest make-bodypart-text-html-test
   (t/testing "string type"

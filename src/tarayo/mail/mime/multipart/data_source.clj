@@ -2,10 +2,10 @@
   (:require
    [clojure.java.io :as io])
   (:import
-   javax.activation.DataSource))
+   jakarta.activation.DataSource))
 
 (defn ^DataSource byte-array-data-source
-  "Return javax.activation.DataSource instance by byte array."
+  "Return jakarta.activation.DataSource instance by byte array."
   ([^"[B" buf]
    (byte-array-data-source buf "application/octet-stream"))
   ([^"[B" buf ^String content-type]

@@ -63,7 +63,7 @@
 
 (defn ^SMTPTransport test-transport
   []
-  (proxy [SMTPTransport] [(session/make-session) (javax.mail.URLName. "localhost")]
+  (proxy [SMTPTransport] [(session/make-session) (jakarta.mail.URLName. "localhost")]
     (connect
       ([] true)
       ([_ _] true)

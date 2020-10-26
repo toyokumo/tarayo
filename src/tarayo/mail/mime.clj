@@ -8,8 +8,8 @@
    [tarayo.mail.mime.message :as message]
    [tarayo.mail.mime.multipart :as multipart])
   (:import
-   javax.mail.Session
-   (javax.mail.internet
+   jakarta.mail.Session
+   (jakarta.mail.internet
     MimeMessage)))
 
 (def ^:private non-extra-headers

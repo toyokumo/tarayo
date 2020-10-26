@@ -180,7 +180,7 @@ To generate this parameter, you can use `tarayo.mail.mime`.
          '[tarayo.mail.session :as session])
 ;; => nil
 
-(defn- mime-message->raw-string [^javax.mail.internet.MimeMessage mime-msg]
+(defn- mime-message->raw-string [^jakarta.mail.internet.MimeMessage mime-msg]
   (let [buf (java.io.ByteArrayOutputStream.)]
     (.writeTo mime-msg buf)
     (org.apache.commons.codec.binary.Base64/encodeBase64URLSafeString (.toByteArray buf))))

@@ -10,7 +10,7 @@
   (:import
    (com.sun.mail.smtp
     SMTPTransport)
-   javax.mail.Session))
+   jakarta.mail.Session))
 
 (t/deftest README-test
   (with-redefs [transport/make-transport (constantly (h/test-transport))]
