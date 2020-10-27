@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+== 0.2.4
 === Changed
 * Bumped jakarta.mail and jakarta.mail-api to 2.0.0.
 * Bumped some other libraries.
