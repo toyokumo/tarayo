@@ -5,9 +5,9 @@
   :license {:name "Apache, Version 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
 
-  :dependencies [[camel-snake-kebab "0.4.1"]
-                 [commons-codec "1.14"]
+  :dependencies [[camel-snake-kebab "0.4.2"]
                  [com.sun.mail/jakarta.mail "2.0.0"]
+                 [commons-codec "1.15"]
                  [jakarta.mail/jakarta.mail-api "2.0.0"]
                  [nano-id "1.0.0"]
                  [org.apache.tika/tika-core "1.24.1"]]
@@ -27,8 +27,7 @@
          :global-vars {*warn-on-reflection* true}}
 
    :it {:dependencies [[org.clojure/data.json "1.0.0"]
-                       [camel-snake-kebab "0.4.1"]
-                       [http-kit "2.3.0"]]
+                       [http-kit "2.5.0"]]
         :test-paths ["integration/test"]}
 
    :benchmark {:dependencies [[criterium "0.4.6"]
@@ -41,7 +40,7 @@
    "benchmark" ["with-profile" "+benchmark" "run" "-m" "benchmark"]
    "antq" ["with-profile" "+antq" "run" "-m" "antq.core"]}
 
-  :plugins [[lein-cloverage "1.1.2"]]
+  :plugins [[lein-cloverage "1.2.1"]]
   :cloverage {:ns-exclude-regex [#"benchmark"]}
 
   :release-tasks [["vcs" "assert-committed"]
