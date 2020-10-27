@@ -3,7 +3,7 @@
    [clojure.test :as t]
    [tarayo.mail.mime.address :as sut])
   (:import
-   (javax.mail.internet
+   (jakarta.mail.internet
     InternetAddress)))
 
 (t/deftest make-address-test

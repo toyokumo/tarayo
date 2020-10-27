@@ -6,11 +6,11 @@
    [tarayo.mail.mime.multipart :as multipart]
    [tarayo.test-helper :as h])
   (:import
-   java.util.Calendar
-   (javax.mail.internet
+   (jakarta.mail.internet
     InternetAddress
     MimeMessage
-    MimeMultipart)))
+    MimeMultipart)
+   java.util.Calendar))
 
 (t/deftest make-message-test
   (let [{:keys [session]} (h/test-connection)]

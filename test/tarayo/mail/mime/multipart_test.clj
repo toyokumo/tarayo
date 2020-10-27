@@ -5,8 +5,8 @@
    [clojure.test :as t]
    [tarayo.mail.mime.multipart :as sut])
   (:import
-   javax.mail.BodyPart
-   (javax.mail.internet
+   jakarta.mail.BodyPart
+   (jakarta.mail.internet
     MimeBodyPart
     MimeMultipart)))
 

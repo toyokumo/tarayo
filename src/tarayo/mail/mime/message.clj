@@ -2,14 +2,14 @@
   (:require
    [tarayo.mail.mime.id :as id])
   (:import
-   java.util.Date
-   (javax.mail
+   (jakarta.mail
     Message$RecipientType
     Multipart
     Session)
-   (javax.mail.internet
+   (jakarta.mail.internet
     InternetAddress
-    MimeMessage)))
+    MimeMessage)
+   java.util.Date))
 
 (defn ^MimeMessage make-message
   [^Session session message]
@@ -25,18 +25,18 @@
 
 (defn add-to
   [^MimeMessage msg
-   ^"[Ljavax.mail.internet.InternetAddress;" addresses]
+   ^"[Ljakarta.mail.internet.InternetAddress;" addresses]
   (.addRecipients msg Message$RecipientType/TO addresses))
 
 (defn add-cc
   [^MimeMessage msg
-   ^"[Ljavax.mail.internet.InternetAddress;"
+   ^"[Ljakarta.mail.internet.InternetAddress;"
    addresses]
   (.addRecipients msg Message$RecipientType/CC addresses))
 
 (defn add-bcc
   [^MimeMessage msg
-   ^"[Ljavax.mail.internet.InternetAddress;" addresses]
+   ^"[Ljakarta.mail.internet.InternetAddress;" addresses]
   (.addRecipients msg Message$RecipientType/BCC addresses))
 
 (defn set-from
@@ -46,7 +46,7 @@
 
 (defn set-reply-to
   [^MimeMessage msg
-   ^"[Ljavax.mail.internet.InternetAddress;" addresses]
+   ^"[Ljakarta.mail.internet.InternetAddress;" addresses]
   (.setReplyTo msg addresses))
 
 (defn set-subject

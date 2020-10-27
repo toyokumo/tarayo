@@ -4,8 +4,8 @@
    [clojure.test :as t]
    [tarayo.mail.mime.multipart.data-source :as sut])
   (:import
-   java.io.ByteArrayOutputStream
-   javax.activation.DataSource))
+   jakarta.activation.DataSource
+   java.io.ByteArrayOutputStream))
 
 (t/deftest byte-array-data-source-test
   (t/testing "default content-type"

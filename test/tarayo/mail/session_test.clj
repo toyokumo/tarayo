@@ -3,7 +3,7 @@
    [clojure.test :as t]
    [tarayo.mail.session :as sut])
   (:import
-   javax.mail.Session))
+   jakarta.mail.Session))
 
 (t/deftest make-session-test
   (let [sess (sut/make-session {:host "localhost" :port 25})]

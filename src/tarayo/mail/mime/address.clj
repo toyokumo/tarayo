@@ -1,6 +1,6 @@
 (ns tarayo.mail.mime.address
   (:import
-   (javax.mail.internet
+   (jakarta.mail.internet
     InternetAddress)))
 
 (defn ^InternetAddress
@@ -13,7 +13,7 @@
                       (.getPersonal addr)
                       charset)))
 
-(defn ^"[Ljavax.mail.internet.InternetAddress;"
+(defn ^"[Ljakarta.mail.internet.InternetAddress;"
   make-addresses
   [addrs charset]
   (->> (cond-> addrs (string? addrs) vector)
