@@ -11,9 +11,9 @@
 (defrecord TestConnection
   [session transport]
   tarayo.core.ISMTPConnection
-  (send! [this message] {:fn :send! :message message})
-  (connected? [this] true)
-  (close [this] nil))
+  (send! [_this message] {:fn :send! :message message})
+  (connected? [_this] true)
+  (close [_this] nil))
 
 (def ^:private default-test-smtp-server
   {:host "localhost" :port 1025})
