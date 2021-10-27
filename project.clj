@@ -6,41 +6,41 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
 
   :dependencies [[camel-snake-kebab "0.4.2"]
-                 [com.sun.mail/jakarta.mail "2.0.0"]
+                 [com.sun.mail/jakarta.mail "2.0.1"]
                  [commons-codec "1.15"]
-                 [jakarta.mail/jakarta.mail-api "2.0.0"]
+                 [jakarta.mail/jakarta.mail-api "2.0.1"]
                  [nano-id "1.0.0"]
-                 [org.apache.tika/tika-core "1.24.1"]]
+                 [org.apache.tika/tika-core "2.1.0"]]
 
   :profiles
   {:1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
    :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
-   :1.10 {:dependencies [[org.clojure/clojure "1.10.1"]]}
+   :1.10 {:dependencies [[org.clojure/clojure "1.10.3"]]}
 
-   :dev {:dependencies [[org.clojure/clojure "1.10.1"]
+   :dev {:dependencies [[org.clojure/clojure "1.10.3"]
                         [com.github.kirviq/dumbster "1.7.1"]
-                        [testdoc "1.4.0"]
+                        [testdoc "1.4.1"]
                         ;; for stubbing
                         [com.gearswithingears/shrubbery "0.4.1"]]
          :source-paths ["dev/src" "src"]
          :resource-paths ["dev/resources"]
          :global-vars {*warn-on-reflection* true}}
 
-   :it {:dependencies [[org.clojure/data.json "1.0.0"]
-                       [http-kit "2.5.0"]]
+   :it {:dependencies [[org.clojure/data.json "2.4.0"]
+                       [http-kit "2.5.3"]]
         :test-paths ["integration/test"]}
 
    :benchmark {:dependencies [[criterium "0.4.6"]
-                              [com.draines/postal "2.0.3"]]}
+                              [com.draines/postal "2.0.4"]]}
 
-   :antq {:dependencies [[antq "RELEASE"]]}}
+   :antq {:dependencies [[com.github.liquidz/antq "RELEASE"]]}}
   :aliases
   {"test-all" ["with-profile" "1.8,dev:1.9,dev:1.10,dev" "test"]
    "test-integration" ["with-profile" "1.9,dev,it:1.10,dev,it" "test"]
    "benchmark" ["with-profile" "+benchmark" "run" "-m" "benchmark"]
    "antq" ["with-profile" "+antq" "run" "-m" "antq.core"]}
 
-  :plugins [[lein-cloverage "1.2.1"]]
+  :plugins [[lein-cloverage "1.2.2"]]
   :cloverage {:ns-exclude-regex [#"benchmark"]}
 
   :release-tasks [["vcs" "assert-committed"]
