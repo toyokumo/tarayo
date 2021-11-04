@@ -38,7 +38,7 @@
             props (.getProperties session)
             url-name (.getURLName transport)]
         (t/are [x y] (= x (get props y))
-          25,          "mail.smtp.port"
+          "25",        "mail.smtp.port"
           "localhost", "mail.smtp.host"
           "false",     "mail.smtp.auth"
           nil,         "mail.smtp.starttls.enable")
@@ -51,7 +51,7 @@
             props (.getProperties session)
             url-name (.getURLName transport)]
         (t/are [x y] (= x (get props y))
-          465,           "mail.smtps.port"
+          "465",         "mail.smtps.port"
           "example.com", "mail.smtps.host"
           "false",       "mail.smtps.auth"
           nil,           "mail.smtp.starttls.enable")
@@ -63,7 +63,7 @@
             props (.getProperties session)
             url-name (.getURLName transport)]
         (t/are [x y] (= x (get props y))
-          587,         "mail.smtp.port"
+          "587",       "mail.smtp.port"
           "localhost", "mail.smtp.host"
           "false",     "mail.smtp.auth"
           "true",     "mail.smtp.starttls.enable")
@@ -75,7 +75,7 @@
             props (.getProperties session)
             url-name (.getURLName transport)]
         (t/are [x y] (= x (get props y))
-          25,          "mail.smtp.port"
+          "25",        "mail.smtp.port"
           "localhost", "mail.smtp.host"
           "true",      "mail.smtp.auth"
           nil,         "mail.smtp.starttls.enable")
