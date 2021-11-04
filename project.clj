@@ -30,14 +30,10 @@
                        [http-kit "2.5.3"]]
         :test-paths ["integration/test"]}
 
-   :benchmark {:dependencies [[criterium "0.4.6"]
-                              [com.draines/postal "2.0.4"]]}
-
    :antq {:dependencies [[com.github.liquidz/antq "RELEASE"]]}}
   :aliases
   {"test-all" ["with-profile" "1.8,dev:1.9,dev:1.10,dev" "test"]
    "test-integration" ["with-profile" "1.9,dev,it:1.10,dev,it" "test"]
-   "benchmark" ["with-profile" "+benchmark" "run" "-m" "benchmark"]
    "antq" ["with-profile" "+antq" "run" "-m" "antq.core"]}
 
   :plugins [[lein-cloverage "1.2.2"]]

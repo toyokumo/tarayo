@@ -1,0 +1,12 @@
+{:paths ["helper"]
+ :deps {com.github.kirviq/dumbster {:mvn/version "1.7.1"}
+        criterium/criterium {:mvn/version "0.4.6"}
+        org.slf4j/slf4j-nop {:mvn/version "RELEASE"}}
+
+ :aliases
+ {:postal {:extra-paths ["postal"]
+           :extra-deps {com.draines/postal {:mvn/version "2.0.4"}}
+           :main-opts ["-m" "core"]}
+  :tarayo {:extra-paths ["tarayo"]
+           :extra-deps {toyokumo/tarayo {:mvn/version "0.2.4"}}
+           :main-opts ["-m" "core"]}}}
