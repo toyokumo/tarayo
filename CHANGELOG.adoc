@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+=== Changed
+* Bumped jakarta.mail to 2.0.1.
+* Bumped tika to 2.1.0.
+
+=== Fixed
+* https://github.com/liquidz/tarayo/issues/12[#12] Fixed to convert Integer property to String.
+** c.f. https://jakarta.ee/specifications/mail/2.0/apidocs/jakarta.mail/jakarta/mail/package-summary.html
+
 == 0.2.4
 === Changed
 * Bumped jakarta.mail and jakarta.mail-api to 2.0.0.
