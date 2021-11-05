@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+== 0.2.5
+
 === Changed
 * Bumped jakarta.mail to 2.0.1.
 * Bumped tika to 2.1.0.
