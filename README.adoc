@@ -145,7 +145,7 @@ Connection with user authentication::
 ;; => {:result :success, :code 250, :message "250 OK\n"}
 ----
 
-==== Inline image
+==== Inline image (Multipart/related)
 
 [source,clojure]
 ----
@@ -158,6 +158,7 @@ Connection with user authentication::
     (tarayo/send! conn {:from "alice@example.com"
                         :to "bob@example.com"
                         :subject "hello"
+                        :multipart "related"
                         :body [{:content (str "<img src=\"cid:" content-id "\" /> world") :content-type "text/html"}
                                ;; containing id will be handled as "inline attachment file"
                                {:content (io/file "test/resources/image.png") :id content-id}]})))
