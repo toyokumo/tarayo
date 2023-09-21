@@ -75,8 +75,7 @@
            :else 25)
    :auth (some? user)})
 
-(defn ^tarayo.core.ISMTPConnection
-  connect
+(defn connect
   "Connect to the specified SMTP server.
   If the connection is successful, an open `SMTPConnection` is returned.
 
@@ -89,8 +88,8 @@
     * :starttls.enable
 
   For more information, please see https://jakarta.ee/specifications/mail/1.6/apidocs/com/sun/mail/smtp/package-summary.html"
-  ([] (connect {}))
-  ([smtp-server]
+  (^tarayo.core.ISMTPConnection [] (connect {}))
+  (^tarayo.core.ISMTPConnection [smtp-server]
    (let [smtp-server (merge (get-defaults smtp-server)
                             smtp-server)
          sess (session/make-session smtp-server)]

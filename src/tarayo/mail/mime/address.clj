@@ -3,8 +3,8 @@
    (jakarta.mail.internet
     InternetAddress)))
 
-(defn ^InternetAddress
-  make-address
+(defn make-address
+  ^InternetAddress
   [addr charset]
   (let [^InternetAddress addr (cond-> addr
                                 (not (instance? InternetAddress addr))

@@ -6,14 +6,16 @@
    (jakarta.mail.internet
     MimeMessage)))
 
-(defn- ^String get-protocol
+(defn- get-protocol
+  ^String
   [^Session session]
   ;; c.f. https://jakarta.ee/specifications/mail/1.6/apidocs/com/sun/mail/smtp/package-summary.html
   (if (= "true" (.getProperty session "mail.smtp.ssl.enable"))
     "smtps"
     "smtp"))
 
-(defn ^SMTPTransport make-transport
+(defn make-transport
+  ^SMTPTransport
   [^Session session]
   (.getTransport session (get-protocol session)))
 

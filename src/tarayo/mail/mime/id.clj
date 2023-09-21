@@ -7,7 +7,8 @@
    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
    16))
 
-(defn ^String get-random
+(defn get-random
+  ^String
   []
   (let [hostname (.getHostName (java.net.InetAddress/getLocalHost))]
     (format "<%s.%s@%s>" (generate-id) (.getTime (java.util.Date.)) (str "tarayo." hostname))))

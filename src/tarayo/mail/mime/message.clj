@@ -11,7 +11,8 @@
     MimeMessage)
    java.util.Date))
 
-(defn ^MimeMessage make-message
+(defn make-message
+  ^MimeMessage
   [^Session session message]
   (proxy [MimeMessage] [^Session session]
     (updateMessageID

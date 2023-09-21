@@ -10,7 +10,8 @@
   (doseq [part parts]
     (.addBodyPart multipart (body/make-bodypart part charset))))
 
-(defn ^MimeMultipart make-multipart
+(defn make-multipart
+  ^MimeMultipart
   [^String multipart-type parts charset]
   (doto (MimeMultipart. multipart-type)
     (add-body-parts parts charset)))
