@@ -80,7 +80,15 @@
 (t/deftest add-headers-test
   (let [msg (gen-test-message)]
     (t/is (= ["Bar"] (seq (.getHeader msg "Foo"))))
-    (t/is (= ["Baz"] (seq (.getHeader msg "Bar"))))))
+    (t/is (= ["Baz"] (seq (.getHeader msg "Bar")))))
+
+  (t/testing "not string values"
+    (let [{:keys [session]} (h/test-connection)
+          headers {"num" 1
+                   "fn" (constantly "foo")}
+          msg (doto (sut/make-message session {})
+                (sut/add-headers headers))]
+      (t/is (every? #(nil? (.getHeader msg %)) (keys headers))))))
 
 (t/deftest set-content-test
   (t/testing "multipart"

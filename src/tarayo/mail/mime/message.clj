@@ -60,7 +60,8 @@
 (defn add-headers
   [^MimeMessage msg headers]
   (doseq [[k v] headers]
-    (.addHeader msg (cond-> k (keyword? k) name) v)))
+    (when (string? v)
+      (.addHeader msg (cond-> k (keyword? k) name) v))))
 
 (defn set-content
   ([^MimeMessage msg ^Multipart multipart]
