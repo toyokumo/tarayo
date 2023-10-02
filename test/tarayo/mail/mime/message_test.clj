@@ -28,7 +28,8 @@
         (.saveChanges msg)
         (t/is (= "foo" (.getMessageID msg)))))))
 
-(defn- ^MimeMessage gen-test-message
+(defn- gen-test-message
+  ^MimeMessage
   []
   (let [{:keys [session]} (h/test-connection)
         ^Calendar cal (doto (Calendar/getInstance)
