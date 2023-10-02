@@ -17,6 +17,10 @@ install:
 test:
 	lein test-all
 
+.PHONY: test-integration
+test-integration:
+	lein test-integration
+
 .PHONY: outdated
 outdated:
 	lein antq
