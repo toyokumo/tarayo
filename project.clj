@@ -17,7 +17,7 @@
    :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
    :1.10 {:dependencies [[org.clojure/clojure "1.10.3"]]}
 
-   :dev {:dependencies [[org.clojure/clojure "1.10.3"]
+   :dev {:dependencies [[org.clojure/clojure "1.11.1"]
                         [com.github.kirviq/dumbster "1.7.1"]
                         [testdoc "1.4.1"]
                         ;; for stubbing
@@ -32,7 +32,7 @@
 
    :antq {:dependencies [[com.github.liquidz/antq "RELEASE"]]}}
   :aliases
-  {"test-all" ["with-profile" "1.8,dev:1.9,dev:1.10,dev" "test"]
+  {"test-all" ["with-profile" "1.8,dev:1.9,dev:1.10,dev:dev" "test"]
    "test-integration" ["with-profile" "1.9,dev,it:1.10,dev,it" "test"]
    "antq" ["with-profile" "+antq" "run" "-m" "antq.core"]}
 
