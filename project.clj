@@ -27,7 +27,7 @@
          :global-vars {*warn-on-reflection* true}}
 
    :it {:dependencies [[org.clojure/data.json "2.4.0"]
-                       [http-kit "2.5.3"]]
+                       [http-kit "2.7.0"]]
         :test-paths ["integration/test"]}
 
    :antq {:dependencies [[com.github.liquidz/antq "RELEASE"]]}}
