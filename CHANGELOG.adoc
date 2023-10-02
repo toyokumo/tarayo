@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+== 0.2.6
+
+=== Changed
+* Bumped lein-cloverage to 1.2.4.
+* Bumped http-kit to 2.7.0.
+* Bumped clojure to 1.11.1.
+* Bumped tika-core to 2.9.0.
+* Bumped jakarta.mail-api to 2.1.2.
+* Updateed to use `org.eclipse.anguscom.sun.mail/angus-mail` instead of `com.sun.mail/jakarta.mail`.
+* Bumped commons-codec to 1.16.0.
+* Bumped camel-snake-kebab to 0.4.3.
+
+=== Fixed
+* https://github.com/toyokumo/tarayo/issues/17[#17]: Fixed not to add non-string header values.
+
 == 0.2.5
 
 === Changed
