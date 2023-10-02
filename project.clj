@@ -10,7 +10,7 @@
                  [commons-codec "1.16.0"]
                  [jakarta.mail/jakarta.mail-api "2.1.2"]
                  [nano-id "1.0.0"]
-                 [org.apache.tika/tika-core "2.1.0"]]
+                 [org.apache.tika/tika-core "2.9.0"]]
 
   :profiles
   {:1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
