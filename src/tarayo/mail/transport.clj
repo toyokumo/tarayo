@@ -1,10 +1,10 @@
 (ns tarayo.mail.transport
   (:import
-   (com.sun.mail.smtp
-    SMTPTransport)
    jakarta.mail.Session
    (jakarta.mail.internet
-    MimeMessage)))
+    MimeMessage)
+   (org.eclipse.angus.mail.smtp
+    SMTPTransport)))
 
 (defn- get-protocol
   ^String

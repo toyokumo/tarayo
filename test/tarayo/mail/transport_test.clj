@@ -6,7 +6,7 @@
    [tarayo.mail.transport :as sut]
    [tarayo.test-helper :as h])
   (:import
-   (com.sun.mail.smtp
+   (org.eclipse.angus.mail.smtp
     SMTPSSLTransport
     SMTPTransport)))
 

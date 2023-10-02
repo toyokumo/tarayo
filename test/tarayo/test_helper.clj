@@ -5,7 +5,7 @@
    (com.dumbster.smtp
     SimpleSmtpServer
     SmtpMessage)
-   (com.sun.mail.smtp
+   (org.eclipse.angus.mail.smtp
     SMTPTransport)))
 
 (defrecord TestConnection
