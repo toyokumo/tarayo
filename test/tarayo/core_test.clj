@@ -8,9 +8,9 @@
    [tarayo.test-helper :as h]
    [testdoc.core])
   (:import
-   (com.sun.mail.smtp
-    SMTPTransport)
-   jakarta.mail.Session))
+   jakarta.mail.Session
+   (org.eclipse.angus.mail.smtp
+    SMTPTransport)))
 
 (t/deftest README-test
   (with-redefs [transport/make-transport (constantly (h/test-transport))]

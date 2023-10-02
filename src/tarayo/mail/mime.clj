@@ -19,7 +19,8 @@
   (->> (io/resource "VERSION") slurp str/trim
        (str "tarayo/")))
 
-(defn ^MimeMessage make-message
+(defn make-message
+  ^MimeMessage
   [^Session session message]
   (let [{:keys [charset content-type reply-to cc bcc body multipart]} message
         charset (or charset constant/default-charset)

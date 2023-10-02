@@ -23,13 +23,15 @@
   [^URL url]
   (.detect mime-detector url))
 
-(defn- ^String ensure-string
+(defn- ensure-string
+  ^String
   [x]
   (if (keyword? x)
     (str (.sym ^clojure.lang.Keyword x))
     x))
 
-(defn- ^URL ensure-url
+(defn- ensure-url
+  ^URL
   [x]
   (try
     (io/as-url x)
@@ -54,7 +56,8 @@
       (URLDecoder/decode charset)
       (MimeUtility/encodeText charset nil)))
 
-(defn- ^MimeBodyPart make-attachment-bodypart-by-url
+(defn- make-attachment-bodypart-by-url
+  ^MimeBodyPart
   [part charset]
   (let [{:keys [content filename]} part
         url (ensure-url content)]
@@ -63,7 +66,8 @@
       (.setFileName (or filename (extract-file-name url charset)))
       (.setHeader "Content-Type" (get part :content-type (detect-mime-type url))))))
 
-(defn- ^MimeBodyPart make-attachment-bodypart-by-byte-array
+(defn- make-attachment-bodypart-by-byte-array
+  ^MimeBodyPart
   [part]
   (assert (contains? part :content-type) ":content-type is required for byte array content.")
   (assert (contains? part :filename) ":filename is required for byte array content.")
@@ -88,7 +92,8 @@
       (cond-> id (.setContentID (str "<" id ">")))
       (cond-> content-encoding (.setHeader "Content-Transfer-Encoding" content-encoding)))))
 
-(defn ^MimeBodyPart make-bodypart
+(defn make-bodypart
+  ^MimeBodyPart
   [part charset]
   (let [string-content? (-> part :content string?)
         has-id? (contains? part :id)]

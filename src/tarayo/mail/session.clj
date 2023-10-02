@@ -35,10 +35,10 @@
       (.put props k v))
     props))
 
-(defn ^Session make-session
+(defn make-session
   "Create `jakarta.mail.Session` instance and return it."
-  ([] (make-session {}))
-  ([smtp-server]
+  (^Session [] (make-session {}))
+  (^Session [smtp-server]
    (let [props (session-properties smtp-server)]
      (doto (Session/getInstance props)
        (.setDebug (get smtp-server :debug false))))))

@@ -5,7 +5,7 @@
    (com.dumbster.smtp
     SimpleSmtpServer
     SmtpMessage)
-   (com.sun.mail.smtp
+   (org.eclipse.angus.mail.smtp
     SMTPTransport)))
 
 (defrecord TestConnection
@@ -61,7 +61,8 @@
     (tarayo-user-agent?  (first x))
     (some?  (re-seq #"^tarayo/.+$" x))))
 
-(defn ^SMTPTransport test-transport
+(defn test-transport
+  ^SMTPTransport
   []
   (proxy [SMTPTransport] [(session/make-session) (jakarta.mail.URLName. "localhost")]
     (connect
