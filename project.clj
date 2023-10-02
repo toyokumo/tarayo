@@ -36,7 +36,7 @@
    "test-integration" ["with-profile" "1.9,dev,it:1.10,dev,it" "test"]
    "antq" ["with-profile" "+antq" "run" "-m" "antq.core"]}
 
-  :plugins [[lein-cloverage "1.2.2"]]
+  :plugins [[lein-cloverage "1.2.4"]]
   :cloverage {:ns-exclude-regex [#"benchmark"]}
 
   :release-tasks [["vcs" "assert-committed"]
