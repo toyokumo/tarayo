@@ -5,7 +5,7 @@
   :license {:name "Apache, Version 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
 
-  :dependencies [[camel-snake-kebab "0.4.2"]
+  :dependencies [[camel-snake-kebab "0.4.3"]
                  [com.sun.mail/jakarta.mail "2.0.1"]
                  [commons-codec "1.15"]
                  [jakarta.mail/jakarta.mail-api "2.0.1"]
