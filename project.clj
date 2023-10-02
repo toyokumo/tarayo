@@ -6,9 +6,9 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
 
   :dependencies [[camel-snake-kebab "0.4.3"]
-                 [jakarta.mail/jakarta.mail-api "2.0.1"]
                  [org.eclipse.angus/angus-mail "2.0.2"]
                  [commons-codec "1.16.0"]
+                 [jakarta.mail/jakarta.mail-api "2.1.2"]
                  [nano-id "1.0.0"]
                  [org.apache.tika/tika-core "2.1.0"]]
 
