@@ -53,7 +53,7 @@ jobs:
           lein version
 
       - name: Cache dependencies
-        uses: toyokumo/cache@main
+        uses: actions/cache@v4
         with:
           path: |
             ~/.m2
