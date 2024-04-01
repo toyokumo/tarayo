@@ -5,6 +5,9 @@
   :license {:name "Apache, Version 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
 
+  :repositories [["clojars" {:url "https://clojars.org/repo"
+                             :sign-releases false}]]
+
   :dependencies [[camel-snake-kebab "0.4.3"]
                  [org.eclipse.angus/angus-mail "2.0.3"]
                  [commons-codec "1.16.1"]
@@ -37,12 +40,4 @@
    "antq" ["with-profile" "+antq" "run" "-m" "antq.core"]}
 
   :plugins [[lein-cloverage "1.2.4"]]
-  :cloverage {:ns-exclude-regex [#"benchmark"]}
-
-  :release-tasks [["vcs" "assert-committed"]
-                  ["change" "version" "leiningen.release/bump-version" "release"]
-                  ["vcs" "commit"]
-                  ["vcs" "tag"]
-                  ["change" "version" "leiningen.release/bump-version"]
-                  ["vcs" "commit"]
-                  ["vcs" "push"]])
+  :cloverage {:ns-exclude-regex [#"benchmark"]})
