@@ -34,6 +34,10 @@ benchmark:
 	cd benchmark && clojure -M:postal
 	cd benchmark && clojure -M:tarayo
 
+.PHONY: deploy
+deploy:
+	lein deploy clojars
+
 .PHONY: clean
 clean:
 	lein clean
