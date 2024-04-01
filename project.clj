@@ -6,11 +6,11 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
 
   :dependencies [[camel-snake-kebab "0.4.3"]
-                 [org.eclipse.angus/angus-mail "2.0.2"]
-                 [commons-codec "1.16.0"]
-                 [jakarta.mail/jakarta.mail-api "2.1.2"]
-                 [nano-id "1.0.0"]
-                 [org.apache.tika/tika-core "2.9.0"]]
+                 [org.eclipse.angus/angus-mail "2.0.3"]
+                 [commons-codec "1.16.1"]
+                 [jakarta.mail/jakarta.mail-api "2.1.3"]
+                 [nano-id "1.1.0"]
+                 [org.apache.tika/tika-core "2.9.1"]]
 
   :profiles
   {:1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
@@ -26,7 +26,7 @@
          :resource-paths ["dev/resources"]
          :global-vars {*warn-on-reflection* true}}
 
-   :it {:dependencies [[org.clojure/data.json "2.4.0"]
+   :it {:dependencies [[org.clojure/data.json "2.5.0"]
                        [http-kit "2.7.0"]]
         :test-paths ["integration/test"]}
 
