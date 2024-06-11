@@ -11,4 +11,4 @@
   ^String
   []
   (let [hostname (.getHostName (java.net.InetAddress/getLocalHost))]
-    (format "<%s.%s@%s>" (generate-id) (.getTime (java.util.Date.)) (str "tarayo." hostname))))
+    (format "%s.%s@%s" (generate-id) (.getTime (java.util.Date.)) (str "tarayo." hostname))))
