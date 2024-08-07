@@ -11,23 +11,23 @@ lint:
 
 .PHONY: install
 install:
-	lein install
+	clojure -T:build install
 
 .PHONY: test
 test:
-	lein test-all
+	clojure -M:dev:test unit
+	clojure -M:dev:1.9:test unit
+	clojure -M:dev:1.10:test unit
 
 .PHONY: test-integration
 test-integration:
-	lein test-integration
+	clojure -M:dev:test it
+	clojure -M:dev:1.9:test it
+	clojure -M:dev:1.10:test it
 
 .PHONY: outdated
 outdated:
-	lein antq
-
-.PHONY: coverage
-coverage:
-	lein cloverage
+	clojure -Tantq outdated
 
 .PHONY: benchmark
 benchmark:
@@ -36,8 +36,8 @@ benchmark:
 
 .PHONY: deploy
 deploy:
-	lein deploy clojars
+	clojure -T:build deploy
 
 .PHONY: clean
 clean:
-	lein clean
+	rm -rf target

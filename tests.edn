@@ -1,0 +1,14 @@
+#kaocha/v1
+{:tests [{:id :unit
+          :test-paths ["test"]}
+         {:id :it
+          :test-paths ["integration/test"]}]
+ :fail-fast? true
+ :color? true
+ :reporter [kaocha.report/documentation]
+ :plugins [:kaocha.plugin/profiling
+           :kaocha.plugin/print-invocations
+           :kaocha.plugin/cloverage]
+
+ :cloverage/opts {:src-ns-path ["src"]
+                  :test-ns-path ["test"]}}

@@ -44,26 +44,22 @@ jobs:
           architecture: x64
 
       - uses: DeLaGuardo/setup-clojure@master
-        with:
-          lein: '2.11.2'
 
       - name: Show versions
         run: |
           java -version
-          lein version
 
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/.m2
-            ~/.lein
           key: clj-cache-test-${{ hashFiles('project.clj') }}
           restore-keys: |
             clj-cache-test-
 
       - name: Run tests
-        run: lein test-integration
+        run: make test-integration
 
       - name: Run cloverage
         run: |

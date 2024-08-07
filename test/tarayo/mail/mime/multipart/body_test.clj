@@ -27,15 +27,15 @@
 
 (t/deftest make-bodypart-test
   (t/testing "inline"
-    (let [part {:content (io/file "project.clj") :id (str (gensym))}
+    (let [part {:content (io/file "build.clj") :id (str (gensym))}
           bp (sut/make-bodypart part "UTF-8")]
       (t/is (instance? MimeBodyPart bp))
       (t/is (= ["text/x-clojure"] (seq (.getHeader bp "Content-Type"))))
-      (t/is (= "project.clj" (.getFileName bp)))
+      (t/is (= "build.clj" (.getFileName bp)))
       (t/is (= "inline" (.getDisposition bp)))))
 
   (t/testing "specify content-type"
-    (let [part {:content (io/file "project.clj")
+    (let [part {:content (io/file "build.clj")
                 :content-type "text/plain"}
           bp (sut/make-bodypart part "UTF-8")]
       (t/is (instance? MimeBodyPart bp))
@@ -43,23 +43,23 @@
                (seq (.getHeader bp "Content-Type"))))))
 
   (t/testing "attachment"
-    (let [part {:content (io/file "project.clj")}
+    (let [part {:content (io/file "build.clj")}
           bp (sut/make-bodypart part "UTF-8")]
       (t/is (instance? MimeBodyPart bp))
       (t/is (= ["text/x-clojure"] (seq (.getHeader bp "Content-Type"))))
-      (t/is (= "project.clj" (.getFileName bp)))
+      (t/is (= "build.clj" (.getFileName bp)))
       (t/is (= "attachment" (.getDisposition bp)))))
 
   (t/testing "attachment by path string"
-    (let [part {:content (io/file "project.clj")}
+    (let [part {:content (io/file "build.clj")}
           bp (sut/make-bodypart part "UTF-8")]
       (t/is (instance? MimeBodyPart bp))
       (t/is (= ["text/x-clojure"] (seq (.getHeader bp "Content-Type"))))
-      (t/is (= "project.clj" (.getFileName bp)))
+      (t/is (= "build.clj" (.getFileName bp)))
       (t/is (= "attachment" (.getDisposition bp)))))
 
   (t/testing "overwriting attachment filename"
-    (let [part {:content (io/file "project.clj")
+    (let [part {:content (io/file "build.clj")
                 :filename "overwrite.clj"}
           bp (sut/make-bodypart part "UTF-8")]
       (t/is (instance? MimeBodyPart bp))
@@ -68,7 +68,7 @@
       (t/is (= "attachment" (.getDisposition bp))))))
 
 (t/deftest make-bodypart-with-content-id-test
-  (let [part {:content (io/file "project.clj") :id "foo-id"}
+  (let [part {:content (io/file "build.clj") :id "foo-id"}
         bp (sut/make-bodypart part "UTF-8")]
     (t/is (instance? MimeBodyPart bp))
     (t/is (= "<foo-id>" (.getContentID bp)))))
@@ -82,7 +82,7 @@
              (.getFileName bp)))))
 
 (t/deftest make-bodypart-with-content-encoding-test
-  (let [part {:content (io/file "project.clj")
+  (let [part {:content (io/file "build.clj")
               :content-encoding "base64"}
         bp (sut/make-bodypart part "UTF-8")]
     (t/is (instance? MimeBodyPart bp))
@@ -90,7 +90,7 @@
 
 (t/deftest make-bodypart-with-bytes-attachment-test
   (t/testing "positive"
-    (let [file (io/file "project.clj")
+    (let [file (io/file "build.clj")
           part {:content (Files/readAllBytes (.toPath file))
                 :content-type "text/x-clojure"
                 :filename "foo.clj"}
