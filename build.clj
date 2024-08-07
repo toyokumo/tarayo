@@ -1,7 +1,7 @@
 (ns build
   (:require
-   [clojure.string :as str]
-   [build-edn.main]))
+   [build-edn.main]
+   [clojure.string :as str]))
 
 (def ^:private config
   {:lib 'toyokumo/tarayo
@@ -11,7 +11,8 @@
    :licenses [{:name "Apache, Version 2.0"
                :url "http://www.apache.org/licenses/LICENSE-2.0"}]})
 
-(defmacro defwrapper [fn]
+(defmacro defwrapper
+  [fn]
   `(defn ~fn [m#]
      (~(symbol (str "build-edn.main/" fn)) (merge config m#))))
 
