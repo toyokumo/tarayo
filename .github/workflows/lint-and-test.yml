@@ -61,7 +61,5 @@ jobs:
       - name: Run tests
         run: make test-integration
 
-      - name: Run cloverage
-        run: |
-          lein cloverage --codecov
-          bash <(curl -s https://codecov.io/bash)
+      - name: Upload reports
+        uses: codecov/codecov-action@v4
