@@ -46,4 +46,4 @@ deploy:
 
 .PHONY: clean
 clean:
-	rm -rf target
+	rm -rf target .cpcache
