@@ -59,7 +59,7 @@ jobs:
             clj-cache-test-
 
       - name: Run tests
-        run: make test-integration
+        run: make test
 
       - name: Upload reports
         uses: codecov/codecov-action@v4

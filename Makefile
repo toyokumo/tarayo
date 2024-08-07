@@ -15,15 +15,21 @@ install:
 
 .PHONY: test
 test:
-	clojure -M:dev:test unit
+	clojure -M:dev:1.9:test
+	clojure -M:dev:1.10:test
+	clojure -M:dev:test
+
+.PHONY: test-unit
+test-unit:
 	clojure -M:dev:1.9:test unit
 	clojure -M:dev:1.10:test unit
+	clojure -M:dev:test unit
 
 .PHONY: test-integration
 test-integration:
-	clojure -M:dev:test it
 	clojure -M:dev:1.9:test it
 	clojure -M:dev:1.10:test it
+	clojure -M:dev:test it
 
 .PHONY: outdated
 outdated:
