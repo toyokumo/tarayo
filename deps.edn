@@ -25,8 +25,7 @@
                      http-kit/http-kit {:mvn/version "2.7.0"}}
         :extra-paths ["test" "dev/src" "dev/resources"]}
 
-  :test {:main-opts ["-e" "(set! *warn-on-reflection* true)"
-                     "-m" "kaocha.runner"]}
+  :test {:main-opts ["-m" "kaocha.runner"]}
 
   :build {:deps {com.github.liquidz/build.edn {:mvn/version "0.11.266"}}
           :ns-default build}}}
