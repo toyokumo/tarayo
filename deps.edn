@@ -23,8 +23,7 @@
                      ;; for integration test
                      org.clojure/data.json {:mvn/version "2.5.0"}
                      http-kit/http-kit {:mvn/version "2.7.0"}}
-        :extra-paths ["test" "dev/src" "dev/resources"]
-        :global-vars {*warn-on-reflection* true}}
+        :extra-paths ["test" "dev/src" "dev/resources"]}
 
   :test {:main-opts ["-m" "kaocha.runner"]}
 
