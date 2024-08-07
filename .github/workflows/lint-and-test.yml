@@ -54,7 +54,7 @@ jobs:
         with:
           path: |
             ~/.m2
-          key: clj-cache-test-${{ hashFiles('project.clj') }}
+          key: clj-cache-test-${{ hashFiles('deps.edn') }}
           restore-keys: |
             clj-cache-test-
 
