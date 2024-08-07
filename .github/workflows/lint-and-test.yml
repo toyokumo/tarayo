@@ -44,6 +44,8 @@ jobs:
           architecture: x64
 
       - uses: DeLaGuardo/setup-clojure@master
+        with:
+          cli: 1.11.3.1463
 
       - name: Show versions
         run: |
