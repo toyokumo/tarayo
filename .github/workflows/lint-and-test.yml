@@ -45,27 +45,23 @@ jobs:
 
       - uses: DeLaGuardo/setup-clojure@master
         with:
-          lein: '2.11.2'
+          cli: 1.11.3.1463
 
       - name: Show versions
         run: |
           java -version
-          lein version
 
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/.m2
-            ~/.lein
-          key: clj-cache-test-${{ hashFiles('project.clj') }}
+          key: clj-cache-test-${{ hashFiles('deps.edn') }}
           restore-keys: |
             clj-cache-test-
 
       - name: Run tests
-        run: lein test-integration
+        run: make test
 
-      - name: Run cloverage
-        run: |
-          lein cloverage --codecov
-          bash <(curl -s https://codecov.io/bash)
+      - name: Upload reports
+        uses: codecov/codecov-action@v4

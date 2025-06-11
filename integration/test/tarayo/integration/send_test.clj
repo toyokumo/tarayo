@@ -85,7 +85,7 @@
     (with-open [conn (core/connect mailhog-server)]
       (core/send! conn {:from from :to "alice@example.com" :subject "hello"
                         :body [{:content-type "text/plain" :content "world"}
-                               {:content (io/file "project.clj")}]}))
+                               {:content (io/file "build.clj")}]}))
     (let [resp (find-mail-by-from from)
           item (get-in resp [:items 0])
           mime-parts (->> (get-in item [:mime :parts])
@@ -104,7 +104,7 @@
 
       (let [{:keys [headers body]} (second mime-parts)]
         (t/is (= ["text/x-clojure"] (:content-type headers)))
-        (t/is (= ["attachment; filename=project.clj"] (:content-disposition headers)))
+        (t/is (= ["attachment; filename=build.clj"] (:content-disposition headers)))
         (t/is (and (string? body) (not (str/blank? body))))))))
 
 (t/deftest send-multipart-alternative-mail-test

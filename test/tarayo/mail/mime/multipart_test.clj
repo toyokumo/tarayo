@@ -13,7 +13,7 @@
 (t/deftest make-multipart-test
   (let [mp (sut/make-multipart "mixed"
                                [{:content-type "text/html" :content "foo"}
-                                {:content (io/file "project.clj")}]
+                                {:content (io/file "build.clj")}]
                                "UTF-8")]
     (t/is (instance? MimeMultipart mp))
     (t/is (= 2 (.getCount mp)))
@@ -28,7 +28,7 @@
       (t/is (= "foo" (.getContent html)))
       (t/is (= "text/html; charset=UTF-8" (.getContentType html)))
 
-      (t/is (= "project.clj" (.getFileName attach)))
+      (t/is (= "build.clj" (.getFileName attach)))
       (t/is (= "text/x-clojure" (.getContentType attach))))))
 
 (t/deftest make-multipart-alternative-test
