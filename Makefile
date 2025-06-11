@@ -33,7 +33,7 @@ test-integration:
 
 .PHONY: outdated
 outdated:
-	clojure -Tantq outdated
+	clojure -M:outdated --upgrade
 
 .PHONY: benchmark
 benchmark:
