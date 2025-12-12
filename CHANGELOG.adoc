@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+== 0.2.8
+
+=== Changed
+* Bumped clojure to 1.12.4.
+* Bumped angus-mail to 2.0.5.
+* Bumped commons-codec to 1.20.0.
+* Bumped jakarta.mail-api to 2.1.5.
+* Bumped tika-core to 3.2.3.
+* Bumped deep-diff2 to 2.12.219.
+* Bumped data.json to 2.5.1.
+* Bumped http-kit to 2.8.1.
+
 == 0.2.7
 
 === Changed
