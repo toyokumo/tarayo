@@ -1,17 +1,18 @@
 {:paths ["src" "resources"]
 
  :deps
- {org.clojure/clojure {:mvn/version "1.11.1"}
+ {org.clojure/clojure {:mvn/version "1.12.4"}
   camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
-  org.eclipse.angus/angus-mail {:mvn/version "2.0.3"}
-  commons-codec/commons-codec {:mvn/version "1.16.1"}
-  jakarta.mail/jakarta.mail-api {:mvn/version "2.1.3"}
+  org.eclipse.angus/angus-mail {:mvn/version "2.0.5"}
+  commons-codec/commons-codec {:mvn/version "1.20.0"}
+  jakarta.mail/jakarta.mail-api {:mvn/version "2.1.5"}
   nano-id/nano-id {:mvn/version "1.1.0"}
-  org.apache.tika/tika-core {:mvn/version "2.9.1"}}
+  org.apache.tika/tika-core {:mvn/version "3.2.3"}}
 
  :aliases
  {:1.9 {:override-deps {org.clojure/clojure {:mvn/version "1.9.0"}}}
   :1.10 {:override-deps {org.clojure/clojure {:mvn/version "1.10.3"}}}
+  :1.11 {:override-deps {org.clojure/clojure {:mvn/version "1.11.4"}}}
 
   :dev {:extra-deps {com.github.kirviq/dumbster {:mvn/version "1.7.1"}
                      testdoc/testdoc {:mvn/version "1.4.1"}
@@ -19,15 +20,15 @@
                      com.gearswithingears/shrubbery {:mvn/version "0.4.1"}
                      lambdaisland/kaocha {:mvn/version "1.91.1392"}
                      lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
-                     lambdaisland/deep-diff2 {:mvn/version "2.11.216"}
+                     lambdaisland/deep-diff2 {:mvn/version "2.12.219"}
                      ;; for integration test
-                     org.clojure/data.json {:mvn/version "2.5.0"}
-                     http-kit/http-kit {:mvn/version "2.7.0"}}
+                     org.clojure/data.json {:mvn/version "2.5.1"}
+                     http-kit/http-kit {:mvn/version "2.8.1"}}
         :extra-paths ["test" "dev/src" "dev/resources"]}
 
   :test {:main-opts ["-m" "kaocha.runner"]}
 
-  :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "2.11.1276"}}
+  :outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "2.11.1300"}}
              :main-opts ["-m" "antq.core"]}
 
   :build {:deps {com.github.liquidz/build.edn {:mvn/version "0.11.266"}}
