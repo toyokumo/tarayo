@@ -17,6 +17,7 @@ install:
 test:
 	clojure -M:dev:1.9:test
 	clojure -M:dev:1.10:test
+	clojure -M:dev:1.11:test
 	clojure -M:dev:test
 
 .PHONY: test-unit
@@ -29,6 +30,7 @@ test-unit:
 test-integration:
 	clojure -M:dev:1.9:test it
 	clojure -M:dev:1.10:test it
+	clojure -M:dev:1.11:test it
 	clojure -M:dev:test it
 
 .PHONY: outdated
