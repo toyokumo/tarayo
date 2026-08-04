@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file. This change
 
 == Unreleased (dev)
 
+== 0.2.9
+
+=== Changed
+* Bumped clojure to 1.12.5.
+* Bumped commons-codec to 1.22.1.
+* Bumped tika-core to 3.3.2.
+* Bumped deep-diff2 to 2.14.235.
+* Bumped data.json to 2.5.2.
+
 == 0.2.8
 
 === Changed
