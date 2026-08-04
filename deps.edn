@@ -1,13 +1,13 @@
 {:paths ["src" "resources"]
 
  :deps
- {org.clojure/clojure {:mvn/version "1.12.4"}
+ {org.clojure/clojure {:mvn/version "1.12.5"}
   camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
   org.eclipse.angus/angus-mail {:mvn/version "2.0.5"}
-  commons-codec/commons-codec {:mvn/version "1.20.0"}
+  commons-codec/commons-codec {:mvn/version "1.22.1"}
   jakarta.mail/jakarta.mail-api {:mvn/version "2.1.5"}
   nano-id/nano-id {:mvn/version "1.1.0"}
-  org.apache.tika/tika-core {:mvn/version "3.2.3"}}
+  org.apache.tika/tika-core {:mvn/version "3.3.2"}}
 
  :aliases
  {:1.9 {:override-deps {org.clojure/clojure {:mvn/version "1.9.0"}}}
@@ -20,9 +20,9 @@
                      com.gearswithingears/shrubbery {:mvn/version "0.4.1"}
                      lambdaisland/kaocha {:mvn/version "1.91.1392"}
                      lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
-                     lambdaisland/deep-diff2 {:mvn/version "2.12.219"}
+                     lambdaisland/deep-diff2 {:mvn/version "2.14.235"}
                      ;; for integration test
-                     org.clojure/data.json {:mvn/version "2.5.1"}
+                     org.clojure/data.json {:mvn/version "2.5.2"}
                      http-kit/http-kit {:mvn/version "2.8.1"}}
         :extra-paths ["test" "dev/src" "dev/resources"]}
 
