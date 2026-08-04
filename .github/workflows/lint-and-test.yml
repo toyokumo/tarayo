@@ -6,7 +6,7 @@ jobs:
   clj_style:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: DeLaGuardo/setup-clojure@master
         with:
           cljstyle: latest
@@ -15,7 +15,7 @@ jobs:
   clj_kondo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: DeLaGuardo/setup-clojure@master
         with:
           clj-kondo: latest
@@ -34,9 +34,9 @@ jobs:
           - 8025:8025
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -45,14 +45,14 @@ jobs:
 
       - uses: DeLaGuardo/setup-clojure@master
         with:
-          cli: 1.11.3.1463
+          cli: 1.12.5.1664
 
       - name: Show versions
         run: |
           java -version
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.m2
@@ -64,4 +64,4 @@ jobs:
         run: make test
 
       - name: Upload reports
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
